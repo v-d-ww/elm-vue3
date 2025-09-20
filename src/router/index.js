@@ -1,0 +1,84 @@
+import { createRouter,createWebHistory } from 'vue-router'
+
+const router = createRouter({
+  history:createWebHistory(),
+  routes:[
+    {
+      path: '/',
+      name: 'Home',
+      component: () => import('@/views/dishes/IndexPage.vue')
+    }, {
+      path: '/index',
+      name: 'Index',
+      component: () => import('@/views/dishes/IndexPage.vue')
+    }, 
+    {
+      path: '/businessList',
+      name: 'BusinessList',
+      component: () => import('@/views/dishes/BusinessList.vue')
+    }, 
+    {
+      path: '/businessInfo',
+      name: 'BusinessInfo',
+      component: () => import('@/views/dishes/BusinessInfo.vue')
+    }, 
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/Login/LoginPage.vue')
+    }, 
+    {
+      path: '/orders',
+      name: 'Orders',
+      component: () => import('@/views/orders/OrdersPage.vue')
+    }, 
+    {
+      path: '/userAddress',
+      name: 'UserAddress',
+      component: () => import('@/views/user/UserAddress.vue')
+    }, 
+    {
+      path: '/payment',
+      name: 'Payment',
+      component: () => import('@/views/orders/PaymentPage.vue')
+    }, 
+    {
+      path: '/orderList',
+      name: 'OrderList',
+      component: () => import('@/views/orders/OrderList.vue')
+    }, 
+    // {
+    //   path: '/addUserAddress',
+    //   name: 'AddUserAddress',
+    //   component: () => import('@/views/user/AddUserAddress.vue')
+    // }, 
+    {
+      path: '/EditUserAddress',
+      name: 'EditUserAddress',
+      component: () => import('@/views/user/EditUserAddress.vue')
+    }, 
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import('@/views/Login/RegisterPage.vue')
+    }, 
+    {
+      path: '/mine',
+      name: 'Mine',
+      component: () => import('@/views/user/MinePage.vue')
+    },
+  ]
+})
+// router.beforeEach(function (to, next) {
+//   let user = sessionStorage.getItem('user');
+//   //除了登录、注册、首页、商家列表、商家信息之外，都需要判断是否登录
+//   if (!
+//     (to.path == '/' || to.path == '/index' || to.path == '/businessList' || to.path == '/businessInfo' || to.path == '/login' || to.path == '/register')) {
+//     if (user == null) {
+//       router.push('/login');
+//       location.reload();
+//     }
+//   }
+//   next();
+// });
+export default router

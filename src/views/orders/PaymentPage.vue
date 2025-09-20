@@ -77,7 +77,7 @@ const router = useRouter()
 const route = useRoute() 
 const orderId = route.query.orderId
 const confirm = () => {
-    router.push('/')
+    router.push({path:'/success',query:{orderId:orderId}})
 }   
 const TOTAL = 15 * 60
 const remaining = ref(TOTAL)

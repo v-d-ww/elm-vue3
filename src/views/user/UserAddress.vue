@@ -72,6 +72,8 @@ const isChoose = route.query.isChoose === 'true'
 const chooseAddress =(daId)=>{
     if(isChoose){
         router.push({ path:'/orders', query: { businessId: businessId,daId: daId }});
+    }else{
+        editUserAddress(daId)
     }
 }
 onMounted(async()=>{

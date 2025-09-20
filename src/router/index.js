@@ -50,11 +50,11 @@ const router = createRouter({
       name: 'OrderList',
       component: () => import('@/views/orders/OrderList.vue')
     }, 
-    // {
-    //   path: '/addUserAddress',
-    //   name: 'AddUserAddress',
-    //   component: () => import('@/views/user/AddUserAddress.vue')
-    // }, 
+    {
+      path: '/success',
+      name: 'success',
+      component: () => import('@/views/orders/paymentSuccess.vue')
+    }, 
     {
       path: '/EditUserAddress',
       name: 'EditUserAddress',

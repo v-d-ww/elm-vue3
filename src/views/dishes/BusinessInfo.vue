@@ -392,7 +392,7 @@ onMounted(async () => {
 .wrapper .cart .cart-right .cart-right-item {
     width: 100%;
     height: 100%;
-    background-color: #38CA73;
+    background-color: #47ade8;
     color: #fff;
     font-size: 4.5vw;
     font-weight: 700;

@@ -124,13 +124,13 @@ const sexFilter =(value) => {
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background-color: #fff;
+    background: #f5f5f5 !important;
+    border-bottom: 1px solid #e4e7ed !important;
     display: flex;
     justify-content: space-around;
     align-items: center;
     color: #000;
     font-size: 4.8vw;
-    font-weight: 600;
     position: fixed;
     left: 0;
     top: 0;

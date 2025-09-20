@@ -73,12 +73,9 @@
             <button @click="editUserAddress">确定</button>
         </div>
         </div>
-        <!-- 底部菜单部分 -->
-        <Footer></Footer>
     </div>
 </template>
 <script setup>
-import Footer from '@/components/PageFooter.vue';
 import { ref,onMounted } from 'vue'
 // import { useUserStore } from '@/stores/user.js'
 import { useRouter,useRoute } from 'vue-router'
@@ -159,13 +156,13 @@ const rules = {
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background-color: #fff;
+    background: #f5f5f5 !important;
+    border-bottom: 1px solid #e4e7ed !important;
     display: flex;
     justify-content: space-around;
     align-items: center;
     color: #000;
     font-size: 4.8vw;
-    font-weight: 600;
     border-bottom: solid 1px #DDD;
 }
 /*************** （表单信息） ***************/

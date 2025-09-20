@@ -1,4 +1,7 @@
 import { createRouter,createWebHistory } from 'vue-router'
+// import { useUserStore } from '@/stores/user';
+
+
 
 const router = createRouter({
   history:createWebHistory(),
@@ -69,16 +72,14 @@ const router = createRouter({
     },
   ]
 })
-// router.beforeEach(function (to, next) {
-//   let user = sessionStorage.getItem('user');
+// router.beforeEach((to) => {
 //   //除了登录、注册、首页、商家列表、商家信息之外，都需要判断是否登录
+//   const userStore = useUserStore()
 //   if (!
 //     (to.path == '/' || to.path == '/index' || to.path == '/businessList' || to.path == '/businessInfo' || to.path == '/login' || to.path == '/register')) {
-//     if (user == null) {
+//     if (!userStore.token) {
 //       router.push('/login');
-//       location.reload();
 //     }
 //   }
-//   next();
 // });
 export default router

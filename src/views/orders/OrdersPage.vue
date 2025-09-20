@@ -8,7 +8,7 @@
         <div class="order-info">
             <h5>订单配送至:</h5>
             <div class="order-info-address" @click="toUserAddress">
-                <p>{{ deliveryaddress.length !== 0 ? deliveryaddress.address : '请选择送货地址' }}</p>
+                <p>{{ deliveryaddress ? deliveryaddress.address : '请选择送货地址' }}</p>
             </div>
             <p>{{ deliveryaddress.contactName }}{{  sexFilter(deliveryaddress.contactSex) }}</p>
         </div>
@@ -51,7 +51,7 @@ const router = useRouter()
 const route = useRoute()
 const cartArr = ref([])
 const business = ref({})
-const deliveryaddress = ref([])
+const deliveryaddress = ref(null)
 const businessId = route.query.businessId
 const daId = route.query.daId
 const toUserAddress = () => {
@@ -105,8 +105,9 @@ onMounted(async()=>{
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background-color: #0097FF;
-    color: #fff;
+    background: #f5f5f5 !important;
+    border-bottom: 1px solid #e4e7ed !important;
+    color: #000;
     font-size: 4.8vw;
     position: fixed;
     left: 0;

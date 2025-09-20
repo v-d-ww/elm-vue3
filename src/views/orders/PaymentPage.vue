@@ -121,7 +121,8 @@ onBeforeUnmount(() => {
     .wrapper header {
         width: 100%;
         height: 12vw;
-        background-color: #fff;
+        background: #f5f5f5 !important;
+        border-bottom: 1px solid #e4e7ed !important;
         color: #000;
         font-size: 4.8vw;
         /* font-weight: 600; */

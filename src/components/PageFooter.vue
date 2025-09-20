@@ -1,65 +1,89 @@
 <template>
-    <ul class="footer">
-        <li @click="toIndex">
-            <i class="fa fa-home"></i>
-            <p>首页</p>
-        </li>
-        <li @click="toOrderList">
-            <i class="fa fa-file-text-o"></i>
-            <p>订单</p>
-        </li>
-        <li @click="toMine">
-            <i class="fa fa-user-o"></i>
-            <p>我的</p>
-        </li>
-    </ul>
+    <div class="wrapper">
+    <el-menu
+        :default-active="activeIndex"
+        class="footer-menu"
+        @select="handleSelect"
+    >
+        <el-menu-item index="index">
+            <el-icon><House /></el-icon>
+            <span>首页</span>
+        </el-menu-item>
+        <el-menu-item index="orderList">
+            <el-icon><Document /></el-icon>
+            <span>订单</span>
+        </el-menu-item>
+        <el-menu-item index="mine">
+            <el-icon><User /></el-icon>
+            <span>我的</span>
+        </el-menu-item>
+    </el-menu>
+</div>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-const router = useRouter()
-const toIndex = () => {
-    router.push('/index');
-};
-const toOrderList =() => {
-    router.push('/orderList');
-};
-const toMine =() => {
-    router.push('/mine');
-};
+import { useRouter, useRoute } from 'vue-router'
+import { House, Document, User } from '@element-plus/icons-vue'
+import { ref, watch,onMounted } from 'vue'
 
+const router = useRouter()
+const route = useRoute()
+const activeIndex = ref('index')
+
+onMounted(() => {
+    const currentPath = route.path
+    if (currentPath === '/' || currentPath === '/index') {
+        activeIndex.value = 'index'
+    } else if (currentPath === '/orderList') {
+        activeIndex.value = 'orderList'
+    } else if (currentPath === '/mine' || currentPath === '/userAddress') {
+        activeIndex.value = 'mine'
+    }
+})
+watch(() => route.path, (newPath) => {
+    if (newPath === '/' || newPath === '/index') activeIndex.value = 'index'
+    else if (newPath === '/orderList') activeIndex.value = 'orderList'
+    else if (newPath === '/mine') activeIndex.value = 'mine'
+})
+
+const handleSelect = (index) => {
+    router.push(`/${index}`)
+}
 </script>
 
-<style>
-.wrapper .footer {
-    width: 100%;
-    height: 14vw;
-    border-top: solid 1px #DDD;
-    background-color: #fff;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+<style scoped>
+.wrapper{
+    width: 100vw;
+    margin:0;
+    padding:0;
+}
+.footer-menu {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background: #f5f5f5 !important;
+    border-top: 1px solid #e4e7ed !important;
+    height: 60px !important;
+    display: flex !important;
+    justify-content:space-around !important
 }
 
-.wrapper .footer li {
-    /*li本身的尺寸完全由内容撑起*/
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #999;
-    user-select: none;
-    cursor: pointer;
+:deep(.footer-menu .el-menu-item) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    /* padding: 8px 0 !important; */
+    gap:1px !important;
+    box-sizing: border-box;
+    /* background-color: red; */
+    padding: 6px 8px 8px 8px !important;
 }
 
-.wrapper .footer li p {
-    font-size: 2.8vw;
-}
-
-.wrapper .footer li i {
-    font-size: 5vw;
+.footer-menu .el-menu-item span {
+    font-size: 12px;
+    margin-top:-4px;
 }
 </style>

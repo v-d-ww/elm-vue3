@@ -53,12 +53,9 @@
             <el-button @click="register">去注册</el-button>
         </div>
         </div>
-        <!-- 底部菜单部分 -->
-        <Footer></Footer>
     </div>
 </template>
  <script setup>
-    import Footer from '@/components/PageFooter.vue';
     import { ref,onMounted } from 'vue'
     import {useUserStore} from '@/stores/user.js'
     import { useRouter } from 'vue-router'
@@ -133,30 +130,32 @@ const refreshCheckCode = () => {
  <style scoped>
  /****************** 总容器 ******************/
  .wrapper {
-    width: 100%;
-    height: 100%;
-    /* overflow: hidden;  
-    position: fixed;  */
+    width: 100vw;  /* 视口宽度 */
+    height: 100vh; 
  }
  /****************** header部分 ******************/
  .wrapper header {
-    z-index: -1;
     width: 100%;
     height: 62vw;
     background: linear-gradient(to bottom, #0588d4, #f5f6f7);
     color: #fff;
     font-size: 4.8vw;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1000;
     display: flex;
-    /* justify-content: center; */
     align-items: center;
     padding-left: 10px;
+    box-sizing: border-box;
  }
  /****************** 表单部分 ******************/
-
+ .container{
+    width: 100%;
+    padding:25px 20px 0px 20px ;
+    z-index: 1000;
+    position: relative;
+    border-radius: 30px 30px 0 0;
+    background-color: #fff;
+    margin: -30px 0 0 0;
+    box-sizing: border-box;
+ }
  .wrapper .button-login {
     width: 100%;
     box-sizing: border-box;
@@ -191,41 +190,5 @@ const refreshCheckCode = () => {
     border: none;
     outline: none;
  }
- /****************** 底部菜单部分 ******************/
- .wrapper .footer {
-    width: 100%;
-    height: 14vw;
-    border-top: solid 1px #DDD;
-    background-color: #fff;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
- }
- .wrapper .footer li {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #999;
-    user-select: none;
-    cursor: pointer;
- }
- .wrapper .footer li p {
-    font-size: 2.8vw;
- }
- .wrapper .footer li i {
-    font-size: 5vw;
- }
- .container{
-    width: 100%;
-    padding:25px 20px 0px 20px ;
-    margin: 50vw auto 0;
-    position: relative; 
-    z-index: 1000;
-    border-radius: 30px 30px 0 0;
-    background-color: #fff;
- }
+
  </style>

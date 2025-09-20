@@ -82,12 +82,9 @@
             </li>
         </ul> -->
         
-        <!-- 底部菜单部分 -->
-        <Footer></Footer>
     </div>
 </template>
 <script setup>
-import Footer from '@/components/PageFooter.vue';
 import { ref,onMounted } from 'vue'
 import {useUserStore} from '@/stores/user.js'
 import { useRouter } from 'vue-router'
@@ -189,22 +186,27 @@ const refreshCheckCode = () => {
  }
  /****************** header部分 ******************/
  .wrapper header {
-    z-index: -1;
     width: 100%;
     height: 62vw;
     background: linear-gradient(to bottom, #0588d4, #f5f6f7);
     color: #fff;
     font-size: 4.8vw;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1000;
     display: flex;
-    /* justify-content: center; */
     align-items: center;
     padding-left: 10px;
+    box-sizing: border-box;
  }
  /****************** 表单部分 ******************/
+ .container{
+    width: 100%;
+    padding:25px 20px 0px 20px ;
+    z-index: 1000;
+    position: relative;
+    border-radius: 30px 30px 0 0;
+    background-color: #fff;
+    margin: -30px 0 0 0;
+    box-sizing: border-box;
+ }
  .wrapper .form-box li {
     box-sizing: border-box;
     padding: 4vw 3vw 0 3vw;
@@ -260,13 +262,4 @@ const refreshCheckCode = () => {
     outline: none;
     border: solid 1px #DDD;
 }
-.container{
-    width: 100%;
-    padding:25px 20px 0px 20px ;
-    margin: 50vw auto 0;
-    position: relative; 
-    z-index: 1000;
-    border-radius: 30px 30px 0 0;
-    background-color: #fff;
- }
  </style>

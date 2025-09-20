@@ -1,10 +1,12 @@
 <template>
- <div class="wrapper">
- <!-- header部分 -->
- <header>
+  <header>
  <div class="icon-location-box">
-  <svg t="1757910717169" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6202" width="28" height="28"><path d="M512 512a136.533333 136.533333 0 1 1 136.533333-136.533333 136.533333 136.533333 0 0 1-136.533333 136.533333z m0-219.272533a81.92 81.92 0 1 0 81.92 81.92 81.92 81.92 0 0 0-81.92-81.92z" fill="#d81e06" p-id="6203"></path><path d="M512 831.214933a27.306667 27.306667 0 0 1-19.2512-8.055466l-214.493867-214.357334a330.5472 330.5472 0 1 1 467.490134 0l-214.357334 214.357334a27.306667 27.306667 0 0 1-19.387733 8.055466z m0-732.091733a275.933867 275.933867 0 0 0-195.106133 471.04L512 765.269333l195.106133-195.106133A275.933867 275.933867 0 0 0 512 99.1232z" fill="#d81e06" p-id="6204"></path><path d="M514.321067 979.490133c-147.456 0-306.107733-37.000533-306.107734-118.3744 0-45.602133 51.746133-81.92 145.681067-102.4a27.306667 27.306667 0 1 1 11.605333 53.384534c-78.370133 17.066667-102.673067 41.915733-102.673066 49.015466 0 18.432 88.064 63.761067 251.4944 63.761067s251.4944-45.192533 251.4944-63.761067c0-7.3728-25.258667-32.768-106.496-49.834666a27.306667 27.306667 0 1 1 11.195733-53.384534c96.6656 20.343467 150.186667 56.9344 150.186667 103.2192-0.273067 80.964267-158.9248 118.3744-306.3808 118.3744z" fill="#d81e06" p-id="6205"></path></svg>
- <div class="location-text">天津市津南区<i class="fa fa-caret-down"></i></div>
+  <svg t="1757910717169" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6202" width="25" height="25">
+    <path d="M512 512a136.533333 136.533333 0 1 1 136.533333-136.533333 136.533333 136.533333 0 0 1-136.533333 136.533333z m0-219.272533a81.92 81.92 0 1 0 81.92 81.92 81.92 81.92 0 0 0-81.92-81.92z" fill="#000000" p-id="6203"></path>
+    <path d="M512 831.214933a27.306667 27.306667 0 0 1-19.2512-8.055466l-214.493867-214.357334a330.5472 330.5472 0 1 1 467.490134 0l-214.357334 214.357334a27.306667 27.306667 0 0 1-19.387733 8.055466z m0-732.091733a275.933867 275.933867 0 0 0-195.106133 471.04L512 765.269333l195.106133-195.106133A275.933867 275.933867 0 0 0 512 99.1232z" fill="#000000" p-id="6204"></path>
+    <path d="M514.321067 979.490133c-147.456 0-306.107733-37.000533-306.107734-118.3744 0-45.602133 51.746133-81.92 145.681067-102.4a27.306667 27.306667 0 1 1 11.605333 53.384534c-78.370133 17.066667-102.673067 41.915733-102.673066 49.015466 0 18.432 88.064 63.761067 251.4944 63.761067s251.4944-45.192533 251.4944-63.761067c0-7.3728-25.258667-32.768-106.496-49.834666a27.306667 27.306667 0 1 1 11.195733-53.384534c96.6656 20.343467 150.186667 56.9344 150.186667 103.2192-0.273067 80.964267-158.9248 118.3744-306.3808 118.3744z" fill="#000000" p-id="6205"></path>
+  </svg>
+ <div class="location-text">天津市津南区<el-icon><ArrowDown /></el-icon></div>
 </div>
  <!-- search部分 -->
 <div class="search">
@@ -12,6 +14,9 @@
     <el-button style="background-color:#47ade8;color: #fff;" @click="search(searchContent)">搜素</el-button>
 </div>
 </header>
+ <div class="wrapper">
+ <!-- header部分 -->
+ 
  <!-- 点餐分类部分 -->
  <ul class="foodtype">
  <li @click="toBusinessList(1)">
@@ -85,17 +90,18 @@
  <li>销量最高</li>
  <li>筛选<i class="fa fa-filter"></i></li>
  </ul> -->
+ <div class="menu-container">
  <el-menu 
  class="recommendtype"
  :default-active="selectedSort"
  @select="onSortSelect"
- active-text-color="#0097FF"
  >
   <el-menu-item index='0'>好评排序</el-menu-item>
-  <el-menu-item index='1'>商家销量最高</el-menu-item>
-  <el-menu-item index='2'>配送费最低</el-menu-item>
-  <el-menu-item index='3'>起送费最低</el-menu-item>
+  <el-menu-item index='1'>销量排序</el-menu-item>
+  <el-menu-item index='2'>配送费排序</el-menu-item>
+  <el-menu-item index='3'>起送费排序</el-menu-item>
  </el-menu>
+</div>
  <!-- 推荐商家列表部分 -->
  <ul class="business">
  <!-- <li>
@@ -367,12 +373,11 @@
  </div>
  </div>
  </div>
- 
 </li>
  </ul>
- <!-- 底部菜单部分 -->
- <Footer></Footer>
  </div>
+  <!-- 底部菜单部分 -->
+  <Footer></Footer>
 </template>
 <script setup>
  //导入共通组件
@@ -380,11 +385,16 @@
  import { ref,onMounted } from 'vue'
  import { useRouter } from 'vue-router'
  import { getBusinessFuzzy,getBusinessList } from '@/api/dishes'
+ import { ArrowDown } from '@element-plus/icons-vue'
 
  const router = useRouter()
  const searchContent = ref('')
- const selectedSort = ref('1');
- const onSortSelect = (index) => { selectedSort.value = index };
+ const selectedSort = ref('0');
+ const onSortSelect = async(index) => { 
+    selectedSort.value = index 
+    const res = await getBusinessList({order:selectedSort.value})
+    dishes.value = res.data.data 
+  };
  const search = (keyword) => {
  const params = { businessFuzzy: keyword || '' }
   getBusinessFuzzy(params)
@@ -393,23 +403,23 @@ const toBusinessList = (index) =>{
   router.push({ path: '/businessList', query: { index: index } });
 
 }
-// const dishes = ref([
-//   {
-//     bussinessId:1007,
-//     bussinessName:'米村',
-//     bussinessAddress:'沈阳',
-//     bussinessExplain:'套餐拌饭',
-//     bussinessImg:'@/assets/sj04.png',
-//     starPrice:15,
-//     deliveryPrice:3,
-//     packAmount:1,
-//     status:1,
-//     remarks:'营业时间',
-//     rating:5,
-//     totalSales:0
-//   }
-//  ])
-const dishes = ref([])
+const dishes = ref([
+  {
+    bussinessId:1007,
+    bussinessName:'米村',
+    bussinessAddress:'沈阳',
+    bussinessExplain:'套餐拌饭',
+    bussinessImg:'@/assets/sj04.png',
+    starPrice:15,
+    deliveryPrice:3,
+    packAmount:1,
+    status:1,
+    remarks:'营业时间',
+    rating:5,
+    totalSales:0
+  }
+ ])
+// const dishes = ref([])
 const toBusinessInfo = (businessId) => {
   router.push({ path: '/businessInfo', query: { businessId: businessId } });
 } 
@@ -422,76 +432,53 @@ onMounted(async () => {
 <style scoped>
  /****************** 总容器 ******************/
  .wrapper {
- width: 100%;
- height: 100%;
+ width: 100vw;
+ min-height: 100vh;
+ overflow-y: auto;
  }
  /****************** header ******************/
- .wrapper header {
- width: 100%;
+ header {
+ width: 100vw;
  height: 30vw;
  background:linear-gradient(rgba(255, 255, 255, 0.3), rgba(16, 149, 244, 0.3)),
  url(@/assets/tju.png);
+ /* background-position: center -30px; */
  background-repeat: no-repeat;
  background-size: cover;
- /* position: fixed;
+ position: fixed;
  left: 0;
- top: 0; */
+ top: 0;
   /*保证在最上层*/
-  /* z-index: 1000; */
+  z-index: 1000;
  }
- .wrapper header .icon-location-box {
+ header .icon-location-box {
  margin: 0 1vw 0 3vw;
- padding-top:15px;
+ padding-top:25px;
  display: flex;
- gap:10px;
+ gap:5px;
  align-items:center;
  }
- .wrapper header .location-text {
+ header .location-text {
  font-size: 4.5vw;
  font-weight: 700;
+ display: flex;
+ align-content: center;
+ justify-content: center;
 
 
- }
- .wrapper header .location-text .fa-caret-down {
- margin-left: 1vw;
  }
  /****************** search ******************/
- .wrapper .search {
+ header .search {
   display:flex;
-  margin:20px auto;
+  margin:10px auto;
   width:90%;
   border-radius: 20px;
  }
- /* .wrapper .search .search-fixed-top {
- width: 100%;
- height: 13vw;
- background-color: #0097FF;
- display: flex;
- justify-content: center;
- align-items: center;
- } */
- /* .wrapper .search .search-fixed-top .search-box {
- width: 90%;
- height: 9vw;
- background-color: #fff;
- border-radius: 20px;
- display: flex;
- justify-content: center;
- align-items: center;
- font-size: 3.5vw;
- color: #AEAEAE;
- font-family: "宋体"; */
- /*此样式是让文本选中状态无效*/
- /* user-select: none;
- } */
- /* .wrapper .search .search-fixed-top .search-box .fa-search {
- margin-right: 1vw;
- } */
  /****************** 点餐分类部分 ******************/
  .wrapper .foodtype {
- width: 100%;
+ width: 100vw;
  height: 48vw;
- /* margin-top: 30vw; */
+ margin-top: 28vw;
  display: flex;
  flex-wrap: wrap;
  justify-content: space-around;
@@ -525,7 +512,7 @@ onMounted(async () => {
  * 设置容器宽度95%，然后水平居中，这样两边留白; 
  * 这里不能用padding，因为背景图片也会覆盖padding
  */
- width: 95%;
+ width: 95vw;
  margin: 0 auto;
  height: 29vw;
  /*此三个样式组合，可以保证背景图片充满整个容器*/
@@ -562,6 +549,7 @@ onMounted(async () => {
  display: flex;
  justify-content: space-between;
  align-items: center;
+ box-sizing: border-box;
  }
  .wrapper .supermember .left {
  display: flex;
@@ -593,6 +581,7 @@ onMounted(async () => {
  display: flex;
  justify-content: center;
  align-items: center;
+ margin-bottom: 1vw;
  }
  .wrapper .recommend .recommend-line {
  width: 6vw;
@@ -604,6 +593,11 @@ onMounted(async () => {
  margin: 0 4vw;
  }
  /****************** 推荐方式部分 ******************/
+ .menu-container{
+  width:100vw;
+ 
+
+ }
  .wrapper .recommendtype {
  width: 100%;
  height: 3vw;
@@ -611,6 +605,18 @@ onMounted(async () => {
  display: flex;
  justify-content: space-around;
  align-items: center;
+
+ 
+ }
+
+ .wrapper .recommendtype .el-menu-item{
+  /* background-color: red;
+  border: 1px solid black; */
+  padding: 0;
+  margin:0;
+  background-color: #fff !important;
+
+
  }
 
  /****************** 推荐商家列表部分 ******************/

@@ -10,8 +10,8 @@
   padding: 0;
   }
   html,body,#app {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   font-family: "微软雅黑";
   }
   ul,ol {

@@ -43,9 +43,10 @@
             <div class="button-add">
                 <button @click="addUserAddress">保存</button>
             </div>
-        <!-- 底部菜单部分 -->
-            <Footer></Footer>
+       
     </div>
+     <!-- 底部菜单部分 -->
+     <Footer></Footer>
 </template>
 <script>
     import Footer from '../components/Footer.vue';
@@ -114,11 +115,12 @@
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background-color: #0097FF;
+    background: #f5f5f5 !important;
+    border-bottom: 1px solid #e4e7ed !important;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    color: #fff;
+    color: #000;
     font-size: 4.8vw;
     position: fixed;
     left: 0;

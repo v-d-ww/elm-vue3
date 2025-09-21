@@ -87,6 +87,7 @@ import { useRouter,useRoute } from 'vue-router'
 import { ref,computed, onMounted, onBeforeUnmount } from 'vue'
 import { ArrowDown,ArrowLeft } from '@element-plus/icons-vue'
 import { getOrdersById } from '@/api/order'
+import { payment } from '@/api/order'
 // const order = ref() 
         // mounted() {
         //     //这里的代码是实现:一旦路由到在线支付组件,就不能回到订单确认组件｡
@@ -172,8 +173,10 @@ const detailetShow = () => {
 const router = useRouter() 
 const route = useRoute() 
 const orderId = route.query.orderId
-const confirm = () => {
+const confirm = async () => {
+    await payment(orderId)
     router.push({path:'/success',query:{orderId:orderId}})
+    
 }   
 const TOTAL = 15 * 60
 const remaining = ref(TOTAL)

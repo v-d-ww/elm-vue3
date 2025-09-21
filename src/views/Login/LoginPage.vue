@@ -77,6 +77,9 @@
         await form.value.validate()
         const res = await userLoginService(formUser.value)
         userStore.setToken(res.data.data.token)
+        userStore.setName(res.data.data.nickName)
+        userStore.setId(res.data.data.userId)
+        userStore.setImg(res.data.data.userImg)
         ElMessage.success('登录成功')
         router.push('/')
     }

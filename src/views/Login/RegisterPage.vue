@@ -108,8 +108,8 @@ const register = async () => {
     await form.value.validate()
     const res = await userRegisterService(formUser.value)
     userStore.setToken(res.data.token)
-    ElMessage.success('登录成功')
-    router.push('/')
+    ElMessage.success('注册成功')
+    router.push('/login')
 }
 
 const rules = {

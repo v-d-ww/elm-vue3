@@ -81,10 +81,10 @@ onMounted(async()=>{
     deliveryAddressArr.value = res.data.data
 })
 const editUserAddress = (daId) => {
-    router.push({path:'/EditUserAddress',query: { businessId: businessId,daId:daId,isEdit:true }})
+    router.push({path:'/EditUserAddress',query: { businessId: businessId,daId:daId,isEdit:true,isChoose:isChoose }})
 }
 const toAddUserAddress = () => {
-    router.push({ path: '/EditUserAddress', query: { businessId: businessId,isEdit:false } });
+    router.push({ path: '/EditUserAddress', query: { businessId: businessId,isEdit:false,isChoose:isChoose } });
 }
 const removeUserAddress = async (daId) => {
     try{

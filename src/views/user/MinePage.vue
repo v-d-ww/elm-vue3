@@ -2,8 +2,10 @@
   <div class="wrapper">
   <div class="mine-page">
     <div class="mine-header">
-      <img class="mine-avatar" src="https://avatars.githubusercontent.com/u/998733847?v=4" alt="头像">
+      <img class="mine-avatar" :src="userStore.userImg" alt="头像">
       <span class="mine-username">{{ userName }}</span>
+    
+
       <button class="mine-account-btn" @click="logout">退出登录</button>
     </div>
     <!-- 资产、红包、券 区块 -->
@@ -54,7 +56,7 @@ import Footer from '@/components/PageFooter.vue';
 import { useRouter} from 'vue-router'
 import { useUserStore } from '@/stores/user';
 
-const uerStore = useUserStore()
+const userStore = useUserStore()
 
 const router = useRouter()
 const goAddress = () =>{
@@ -63,11 +65,10 @@ const goAddress = () =>{
 }
 
 const logout = () =>{
-  uerStore.removeToken()
+  userStore.removeToken()
   router.push('/')
-
-
 }
+const userName = userStore.userName
 </script>
 
 <style scoped>

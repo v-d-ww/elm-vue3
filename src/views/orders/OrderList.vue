@@ -7,22 +7,35 @@
         <!-- 订单列表部分 -->
             <h3>未支付订单信息：</h3>
             <ul class="order">
-                <li v-for="item in unpaidOrders" :key="item.orderId">
+                <li v-for="item in unpaidOrders" :key="item.orderId" style="border: 1px solid #e4e7ed;">
                     <div class="order-info">
                         <p>
                             {{item.business.businessName}}
-                            <el-icon @click="detailetShow(item)">
-                                <div v-if="item.isShowDetailet">
-                                    <ArrowDown />
-                                </div>
-                                <div v-else>
-                                    <ArrowLeft />
-                                </div>
-                            </el-icon>
                         </p>
                     <div class="order-info-right">
                         <p>&#165;{{item.orderTotal}}</p>
                         <div class="order-info-right-icon" @click="goPayment(item)">去支付</div>
+                    </div>
+                </div>
+                <!-- 具体食品的信息 -->
+                <ul class="order-detailet">
+                    <li v-for="odItem in item.list" :key="odItem.id">
+                        <img :src="odItem.food.foodImg">
+                        <p>{{odItem.food.foodName}} x {{odItem.quantity}}</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h3>已支付订单信息：</h3>
+        <ul class="order">
+            <li v-for="item in paidOrders" :key="item.orderId" style="border: 1px solid #e4e7ed;">
+                <div class="order-info">
+                    <p>
+                        {{item.business.businessName}}
+                        <i class="fa fa-caret-down" @click="detailetShow(item)"></i>
+                    </p>
+                    <div class="order-info-right">
+                        <p>&#165;{{item.orderTotal}}</p>
                     </div>
                 </div>
                 <ul class="order-detailet" v-show="item.isShowDetailet">
@@ -37,9 +50,57 @@
                 </ul>
             </li>
         </ul>
-        <h3>已支付订单信息：</h3>
+        <h3>配送中订单信息：</h3>
         <ul class="order">
-            <li v-for="item in paidOrders" :key="item.orderId">
+            <li v-for="item in deliveryOrders" :key="item.orderId" style="border: 1px solid #e4e7ed;">
+                <div class="order-info">
+                    <p>
+                        {{item.business.businessName}}
+                        <i class="fa fa-caret-down" @click="detailetShow(item)"></i>
+                    </p>
+                    <div class="order-info-right">
+                        <p>&#165;{{item.orderTotal}}</p>
+                    </div>
+                </div>
+                <ul class="order-detailet" v-show="item.isShowDetailet">
+                    <li v-for="odItem in item.list" :key="odItem.id">
+                        <p>{{odItem.food.foodName}} x {{odItem.quantity}}</p>
+                        <p>&#165;{{odItem.food.foodPrice*odItem.quantity}}</p>
+                    </li>
+                    <li>
+                        <p>配送费</p>
+                        <p>&#165;{{item.business.deliveryPrice}}</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h3>已接单订单信息：</h3>
+        <ul class="order">
+            <li v-for="item in receiveOrders" :key="item.orderId" style="border: 1px solid #e4e7ed;">
+                <div class="order-info">
+                    <p>
+                        {{item.business.businessName}}
+                        <i class="fa fa-caret-down" @click="detailetShow(item)"></i>
+                    </p>
+                    <div class="order-info-right">
+                        <p>&#165;{{item.orderTotal}}</p>
+                    </div>
+                </div>
+                <ul class="order-detailet" v-show="item.isShowDetailet">
+                    <li v-for="odItem in item.list" :key="odItem.id">
+                        <p>{{odItem.food.foodName}} x {{odItem.quantity}}</p>
+                        <p>&#165;{{odItem.food.foodPrice*odItem.quantity}}</p>
+                    </li>
+                    <li>
+                        <p>配送费</p>
+                        <p>&#165;{{item.business.deliveryPrice}}</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h3>已取消订单信息：</h3>
+        <ul class="order">
+            <li v-for="item in cancleOrders" :key="item.orderId" style="border: 1px solid #e4e7ed;">
                 <div class="order-info">
                     <p>
                         {{item.business.businessName}}
@@ -75,6 +136,9 @@ const router = useRouter()
 const orderArr = ref([])
 const unpaidOrders = computed(() => orderArr.value.filter(o => o.orderState == 0))
 const paidOrders = computed(() => orderArr.value.filter(o => o.orderState == 1))
+const deliveryOrders = computed(() => orderArr.value.filter(o => o.orderState == 3))
+const receiveOrders = computed(() => orderArr.value.filter(o => o.orderState == 7))
+const cancleOrders = computed(() => orderArr.value.filter(o => o.orderState == 6))
 const detailetShow = (orders) => {
     orders.isShowDetailet = !orders.isShowDetailet;
 }
@@ -93,6 +157,7 @@ onMounted(async()=>{
  .wrapper {
     width: 100%;
     height: 100%;
+    background: #f5f5f5
  }
  /****************** header部分 ******************/
  .wrapper header {
@@ -120,7 +185,10 @@ onMounted(async()=>{
     color: #666f72;
  }
  .wrapper .order {
-    width: 100%;
+    width: 95%;
+    border-radius:20px;
+    margin:0 auto;
+    background: #fff;
  }
  .wrapper .order li {
     width: 100%;
@@ -149,13 +217,20 @@ onMounted(async()=>{
     width: 100%;
  }
  .wrapper .order li .order-detailet li {
-    width: 100%;
+    overflow-x: auto;
     box-sizing: border-box;
     padding: 1vw 4vw;
     color: #666;
     font-size: 3vw;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+ }
+ .wrapper .order li .order-detailet li img{
+    width:80px;
+    height:80px;
+    border-radius: 2px;
  }
  </style>

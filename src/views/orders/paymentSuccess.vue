@@ -25,14 +25,12 @@
   
 </template>
 <script setup>
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 
-const router = useRouter()
-const route = useRoute()
 
-// 获取订单ID（从路由参数中获取）
-const orderId = route.query.orderId
+const router = useRouter()
+
 
 // 返回首页
 const goToHome = () => {
@@ -50,7 +48,7 @@ const goToHome = () => {
 const goToOrders = () => {
   try {
     // 跳转到订单列表页面
-    router.push({path:'/orders',query:{orderId:orderId}})
+    router.push('/orderList')
     ElMessage.success('正在查看订单')
   } catch (error) {
     console.error('跳转订单页面失败:', error)

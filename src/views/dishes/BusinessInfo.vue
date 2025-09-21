@@ -18,7 +18,7 @@
             </div>
         </div>  
         <!-- 菜品部分  -->
-        <el-row style="flex:1">
+        <el-row style="flex:1;padding-top: 5px ;">
              <!-- 食品分类部分 -->
             <el-col :span="4" class="category">
                 <el-menu
@@ -108,7 +108,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter,useRoute } from 'vue-router'
-import { getBusinessById,listFoodByBusinessId,getCartList, saveCart,updateCart,removeCart } from '@/api/dishes'
+import { getBusinessById,listFoodByBusinessId,getCartList, saveCart,updateCart,removeCart,listCategoryByBusinessId,listFoodByCategoryId } from '@/api/dishes'
 import { Plus,Minus } from '@element-plus/icons-vue'
 
 
@@ -169,9 +169,16 @@ const foodArr = ref([])
 const business = ref({})
 const cartArr = ref([])
 
-const handleSelect = (index) =>{
+const handleSelect = async (index) =>{
     activeCategory.value = index
+    const res = await listFoodByCategoryId(activeCategory.value,businessId)
 
+    foodArr.value = (res.data.data || []).map(item => ({ 
+            ...item, 
+            quantity: 0  // 初始化为0
+    }))
+    // foodArr.value = res.data.data
+    await getCart(businessId)
 }
 // 计算总数量
 const totalQuantity = computed(() => {
@@ -223,17 +230,28 @@ const toOrder = async () => {
     
 }
 
+// 获取购物车信息
+const getCart = async (businessId) =>{
+    const res = await getCartList(businessId)
+    cartArr.value = res?.data?.data || []
+    for (const foodItem of foodArr.value) {
+      const found = cartArr.value.find(c => c.foodId == foodItem.foodId)
+      if (found) foodItem.quantity = found.quantity
+    }
+}
 onMounted(async () => {
   try {
-    const [res, res1, res2] = await Promise.all([
+    const [res, res1, res2, res3] = await Promise.all([
       getBusinessById(businessId),
       listFoodByBusinessId(businessId),
-      getCartList(businessId)
+      getCartList(businessId),
+      listCategoryByBusinessId(businessId)
     ])
 
     business.value = res?.data?.data || {}
     foodArr.value = (res1?.data?.data || []).map(it => ({ ...it, quantity: 0 }))
     cartArr.value = res2?.data?.data || []
+    category.value = res3?.data?.data || []
 
     // 同步购物车数量
     for (const foodItem of foodArr.value) {

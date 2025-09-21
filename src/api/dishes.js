@@ -50,6 +50,18 @@ export const getBusinessById = (businessId) => {
 export const listFoodByBusinessId = (businessId) => {
   return request.post('FoodController/listFoodByBusinessId', { businessId: businessId })
 }
+// 获取种类信息
+export const listCategoryByBusinessId = (businessId) => {
+  return request.post('FoodController/listCategoryByBusinessId', { businessId: businessId })
+}
+// 获取种类信息
+export const listFoodByCategoryId = (categoryId,businessId) => {
+  return request.get('FoodController/listFoodByCategoryId', { 
+    params: {
+       categoryId,
+       businessId,
+  } })
+}
 
 
 // 注册接口

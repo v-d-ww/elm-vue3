@@ -89,11 +89,16 @@ const totalSettle = computed(()=>{
 })
 onMounted(async()=>{
     const res = await getCartList(businessId)
-    const res1 = await getDeliveryAddressById(daId)
     const res2 = await getBusinessById(businessId)
     cartArr.value = res.data.data
-    deliveryaddress.value = res1.data.data
+   
     business.value = res2.data.data
+    if (daId) {
+            const res1 = await getDeliveryAddressById(daId)
+            deliveryaddress.value = res1.data.data
+        } else {
+            deliveryaddress.value = null
+        }
 })
 // cartArr.value =[ {
 //       id: 1,

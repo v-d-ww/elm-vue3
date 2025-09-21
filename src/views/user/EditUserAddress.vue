@@ -94,24 +94,25 @@ const deliveryAddress = ref({
 })
 // const deliveryAddress = ref([])
 const form = ref()
-// const businessId = route.query.businessId
+const businessId = route.query.businessId
 // const isEdit = route.query.businessId
 const isEdit = route.query.isEdit ==='true'
 const daId = route.query.daId
+const isChoose = route.query.isChoose
 const editUserAddress = async ()=>{
     if(isEdit){
         const res = await updateDeliveryAddress(deliveryAddress.value)  
      
         if(res?.data?.code === 200){
             ElMessage.success('保存成功')
-            router.push('/userAddress')
+            router.push({ path: '/userAddress', query: { businessId:businessId,daId:daId,isChoose:isChoose } });
     }
 
     }else{
         const res = await saveDeliveryAddress(deliveryAddress.value)
         if(res?.data?.code === 200){
             ElMessage.success('保存成功')
-            router.push('/userAddress')
+            router.push({ path: '/userAddress', query: { businessId:businessId,daId:daId,isChoose:isChoose } });
     }
 
     }

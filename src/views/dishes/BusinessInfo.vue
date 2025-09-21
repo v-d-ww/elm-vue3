@@ -1,48 +1,88 @@
 <template>
+    <!-- header部分 -->
+    <header>
+        <p>商家信息</p>
+    </header>
     <div class="wrapper">
-        <!-- header部分 -->
-        <header>
-            <p>商家信息</p>
-        </header>
-        <!-- 商家logo部分 -->
-        <div class="business-logo">
-            <img :src="business.businessImg">
-        </div>
-        <!-- 商家信息部分 -->
-        <div class="business-info">
-            <h1>{{ business.businessName }}</h1>
-            <p>&#165;{{ business.starPrice }}起送 &#165;{{ business.deliveryPrice }}配送</p>
-            <p>{{ business.businessExplain }}</p>
-        </div>
-        <!-- 食品列表部分 -->
-        <ul class="food">
-            <li v-for="(item, index) in foodArr" :key="item.id">
-                <div class="food-left">
-                    <img :src="item.foodImg">
-                    <div class="food-left-info">
-                        <h3>{{ item.foodName }}</h3>
-                        <p>{{ item.foodExplain }}</p>
-                        <p>￥{{ item.foodPrice }}</p>
+        <!-- 商家部分 -->
+        <div>
+            <!-- 商家logo部分 -->
+            <div class="business-logo">
+                <img :src="business.businessImg">
+            </div>
+            <!-- 商家信息部分 -->
+            <div class="business-info">
+                <h1>{{ business.businessName }}</h1>
+                <p>&#165;{{ business.starPrice }}起送 &#165;{{ business.deliveryPrice }}配送</p>
+                <p>{{ business.businessExplain }}</p>
+            </div>
+        </div>  
+        <!-- 菜品部分  -->
+        <el-row style="flex:1">
+             <!-- 食品分类部分 -->
+            <el-col :span="4" class="category">
+                <el-menu
+                 :default-active="activeCategory"
+                 @select="handleSelect"
+                 >
+                    <el-menu-item 
+                        v-for="cate in category"
+                        :key="cate.id"
+                        :index="cate.id"
+                    >
+                        {{ cate.name}}
+                    </el-menu-item>
+                </el-menu>
+            </el-col>
+
+            <!-- 食品列表部分 -->
+            <el-col :span="20">
+                <!-- 分割线 -->
+        <el-divider style="padding:0;margin:0">
+            <span style="color:#959090;font-size: smaller;">温馨提示：请适量点餐</span>
+        </el-divider>
+                <ul class="food">
+                <li v-for="(item, index) in foodArr" :key="item.id">
+                    <div class="food-left">
+                        <img :src="item.foodImg">
+                        <div class="food-left-info">
+                            <h3>{{ item.foodName }}</h3>
+                            <p>{{ item.foodExplain }}</p>
+                            <p>￥{{ item.foodPrice }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="food-right">
-                    <div>
-                        <!-- <i class="fa fa-minus-circle" @click="minus(index)" ></i> -->
-                        <el-icon @click="minus(index)" v-show="item.quantity != 0"><Minus /></el-icon>
+                    <div class="food-right">
+                        <div>
+                            <el-icon 
+                                @click="minus(index)" 
+                                v-show="item.quantity != 0"
+                                style="background-color: #959090; color: white; padding: 4px; border-radius: 50%;"
+                            ><Minus /></el-icon>
+                        </div>
+                        <p><span>{{ item.quantity }}</span></p>
+                        <div>
+                            <el-icon 
+                                @click="add(index)" 
+                                style="background-color: #409EFF; color: white; padding: 4px; border-radius: 50%;"
+                            ><Plus /></el-icon>
+                        </div>
                     </div>
-                    <p><span>{{ item.quantity }}</span></p>
-                    <div>
-                        <el-icon @click="add(index)"><Plus /></el-icon>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <!-- 购物车部分 -->
-        <div class="cart">
+                </li>
+            </ul>
+            </el-col>
+        </el-row>
+        
+    </div>
+    <!-- 购物车部分 -->
+    <div class="cart">
             <div class="cart-left">
-                <div class="cart-left-icon"
-                    :style="totalQuantity == 0 ? 'background-color:#505051;' : 'background-color:#3190E8;'">
-                    <i class="fa fa-shopping-cart"></i>
+                <div class="cart-left-icon">
+                    <div v-if="totalQuantity == 0">
+                        <svg t="1758438275746" class="icon" viewBox="0 0 1028 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15859" width="32" height="32"><path d="M332.8 790.528q19.456 0 36.864 7.168t30.208 19.968 20.48 30.208 7.68 36.864-7.68 36.864-20.48 30.208-30.208 20.48-36.864 7.68q-20.48 0-37.888-7.68t-30.208-20.48-20.48-30.208-7.68-36.864 7.68-36.864 20.48-30.208 30.208-19.968 37.888-7.168zM758.784 792.576q19.456 0 37.376 7.168t30.72 19.968 20.48 30.208 7.68 36.864-7.68 36.864-20.48 30.208-30.72 20.48-37.376 7.68-36.864-7.68-30.208-20.48-20.48-30.208-7.68-36.864 7.68-36.864 20.48-30.208 30.208-19.968 36.864-7.168zM930.816 210.944q28.672 0 44.544 7.68t22.528 18.944 6.144 24.064-3.584 22.016-13.312 37.888-22.016 62.976-23.552 68.096-18.944 53.248q-13.312 40.96-33.28 56.832t-49.664 15.872l-35.84 0-65.536 0-86.016 0-96.256 0-253.952 0 14.336 92.16 517.12 0q49.152 0 49.152 41.984 0 20.48-9.728 35.84t-38.4 14.336l-49.152 0-94.208 0-118.784 0-119.808 0-99.328 0-55.296 0q-20.48 0-34.304-9.216t-23.04-24.064-14.848-32.256-8.704-32.768q-1.024-6.144-5.632-29.696t-11.264-58.88-14.848-78.848-16.384-87.552q-19.456-103.424-44.032-230.4l-76.8 0q-15.36 0-25.6-7.68t-16.896-18.432-9.216-23.04-2.56-22.528q0-20.48 13.824-33.792t37.376-12.288l103.424 0q20.48 0 32.768 6.144t19.456 15.36 10.24 18.944 5.12 16.896q2.048 8.192 4.096 23.04t4.096 30.208q3.072 18.432 6.144 38.912l700.416 0zM892.928 302.08l-641.024-2.048 35.84 185.344 535.552 1.024z" p-id="15860"></path></svg>
+                    </div>
+                    <div v-else>
+                        <svg t="1758438275746" class="icon" viewBox="0 0 1028 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15859" width="32" height="32"><path d="M332.8 790.528q19.456 0 36.864 7.168t30.208 19.968 20.48 30.208 7.68 36.864-7.68 36.864-20.48 30.208-30.208 20.48-36.864 7.68q-20.48 0-37.888-7.68t-30.208-20.48-20.48-30.208-7.68-36.864 7.68-36.864 20.48-30.208 30.208-19.968 37.888-7.168zM758.784 792.576q19.456 0 37.376 7.168t30.72 19.968 20.48 30.208 7.68 36.864-7.68 36.864-20.48 30.208-30.72 20.48-37.376 7.68-36.864-7.68-30.208-20.48-20.48-30.208-7.68-36.864 7.68-36.864 20.48-30.208 30.208-19.968 36.864-7.168zM930.816 210.944q28.672 0 44.544 7.68t22.528 18.944 6.144 24.064-3.584 22.016-13.312 37.888-22.016 62.976-23.552 68.096-18.944 53.248q-13.312 40.96-33.28 56.832t-49.664 15.872l-35.84 0-65.536 0-86.016 0-96.256 0-253.952 0 14.336 92.16 517.12 0q49.152 0 49.152 41.984 0 20.48-9.728 35.84t-38.4 14.336l-49.152 0-94.208 0-118.784 0-119.808 0-99.328 0-55.296 0q-20.48 0-34.304-9.216t-23.04-24.064-14.848-32.256-8.704-32.768q-1.024-6.144-5.632-29.696t-11.264-58.88-14.848-78.848-16.384-87.552q-19.456-103.424-44.032-230.4l-76.8 0q-15.36 0-25.6-7.68t-16.896-18.432-9.216-23.04-2.56-22.528q0-20.48 13.824-33.792t37.376-12.288l103.424 0q20.48 0 32.768 6.144t19.456 15.36 10.24 18.944 5.12 16.896q2.048 8.192 4.096 23.04t4.096 30.208q3.072 18.432 6.144 38.912l700.416 0zM892.928 302.08l-641.024-2.048 35.84 185.344 535.552 1.024z" p-id="15860" fill="#1296db"></path></svg>
+                    </div>
                     <div class="cart-left-icon-quantity" v-show="totalQuantity != 0">
                         {{ totalQuantity }}</div>
                 </div>
@@ -62,7 +102,6 @@
                     去结算
                 </div>
             </div>
-        </div>
     </div>
 </template>
 
@@ -75,6 +114,14 @@ import { Plus,Minus } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const businessId = route.query.businessId
+const category = ref([])
+// const category = ref([
+//   { id: 1, name: '主食系列' },
+//   { id: 2, name: '汤品' },
+//   { id: 3, name: '小菜' },
+//   { id: 4, name: '饮品' }
+// ])
+const activeCategory = ref()
 // const business = ref({
 //     businessId:businessId,
 //     businessName:'米村',
@@ -122,6 +169,10 @@ const foodArr = ref([])
 const business = ref({})
 const cartArr = ref([])
 
+const handleSelect = (index) =>{
+    activeCategory.value = index
+
+}
 // 计算总数量
 const totalQuantity = computed(() => {
   return foodArr.value.reduce((total, item) => total + item.quantity, 0)
@@ -149,6 +200,7 @@ const add = async (index) => {
     foodArr.value[index].quantity++
     await updateCart(businessId,foodArr.value[index].foodId,foodArr.value[index].quantity)
    }
+//    foodArr.value[index].quantity++
    
 }
 
@@ -202,10 +254,12 @@ onMounted(async () => {
 .wrapper {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /****************** header部分 ******************/
-.wrapper header {
+header {
     width: 100%;
     height: 12vw;
     background: #f5f5f5 !important;
@@ -260,6 +314,28 @@ onMounted(async () => {
 }
 
 /****************** 食品列表部分 ******************/
+.category{
+    padding:0;
+    margin:0;
+    height:100%;
+    width:100%;
+    background-color: #f5f5f5;
+    overflow-y: auto;
+
+}
+:deep(.el-menu){
+    padding: 0;
+    margin:0;
+    background-color: #f5f5f5;
+}
+:deep(.el-menu-item){
+    text-align: center !important;
+    padding: 0 !important;
+    margin:0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
 .wrapper .food {
     width: 100%;
     /*使用下外边距避开footer部分*/
@@ -279,6 +355,9 @@ onMounted(async () => {
 .wrapper .food li .food-left {
     display: flex;
     align-items: center;
+    margin: 0;
+    padding: 0;
+    width:78%;
 }
 
 .wrapper .food li .food-left img {
@@ -302,7 +381,10 @@ onMounted(async () => {
 }
 
 .wrapper .food li .food-right {
-    width: 16vw;
+    padding: 0;
+    margin:0;
+    flex: 1;
+    box-sizing:border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -326,7 +408,7 @@ onMounted(async () => {
 }
 
 /****************** 购物车部分 ******************/
-.wrapper .cart {
+.cart {
     width: 100%;
     height: 14vw;
     position: fixed;
@@ -335,21 +417,21 @@ onMounted(async () => {
     display: flex;
 }
 
-.wrapper .cart .cart-left {
+.cart .cart-left {
     flex: 2;
-    background-color: #505051;
+    background-color: #fff;
     display: flex;
 }
 
-.wrapper .cart .cart-left .cart-left-icon {
+.cart .cart-left .cart-left-icon {
     width: 16vw;
     height: 16vw;
     box-sizing: border-box;
-    border: solid 1.6vw #444;
+    border: solid 1.6vw #f5f5f5;
     border-radius: 8vw;
-    background-color: #3190E8;
+    background-color: #fff;
     font-size: 7vw;
-    color: #fff;
+    color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -358,12 +440,12 @@ onMounted(async () => {
     position: relative;
 }
 
-.wrapper .cart .cart-left .cart-left-icon-quantity {
+.cart .cart-left .cart-left-icon-quantity {
     width: 5vw;
     height: 5vw;
     border-radius: 2.5vw;
     background-color: red;
-    color: #fff;
+    color: #000;
     font-size: 3.6vw;
     display: flex;
     justify-content: center;
@@ -373,23 +455,23 @@ onMounted(async () => {
     top: -1.5vw;
 }
 
-.wrapper .cart .cart-left .cart-left-info p:first-child {
+.cart .cart-left .cart-left-info p:first-child {
     font-size: 4.5vw;
-    color: #fff;
+    color: #000;
     margin-top: 1vw;
 }
 
-.wrapper .cart .cart-left .cart-left-info p:last-child {
+.cart .cart-left .cart-left-info p:last-child {
     font-size: 2.8vw;
     color: #AAA;
 }
 
-.wrapper .cart .cart-right {
+.cart .cart-right {
     flex: 1;
 }
 
 /*达到起送费时的样式*/
-.wrapper .cart .cart-right .cart-right-item {
+.cart .cart-right .cart-right-item {
     width: 100%;
     height: 100%;
     background-color: #47ade8;
@@ -418,4 +500,5 @@ onMounted(async () => {
     align-items: center;
 }
 */
+
 </style>

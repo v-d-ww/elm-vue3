@@ -403,23 +403,23 @@ const toBusinessList = (index) =>{
   router.push({ path: '/businessList', query: { index: index } });
 
 }
-const dishes = ref([
-  {
-    bussinessId:1007,
-    bussinessName:'米村',
-    bussinessAddress:'沈阳',
-    bussinessExplain:'套餐拌饭',
-    bussinessImg:'@/assets/sj04.png',
-    starPrice:15,
-    deliveryPrice:3,
-    packAmount:1,
-    status:1,
-    remarks:'营业时间',
-    rating:5,
-    totalSales:0
-  }
- ])
-// const dishes = ref([])
+// const dishes = ref([
+//   {
+//     bussinessId:1007,
+//     bussinessName:'米村',
+//     bussinessAddress:'沈阳',
+//     bussinessExplain:'套餐拌饭',
+//     bussinessImg:'@/assets/sj04.png',
+//     starPrice:15,
+//     deliveryPrice:3,
+//     packAmount:1,
+//     status:1,
+//     remarks:'营业时间',
+//     rating:5,
+//     totalSales:0
+//   }
+//  ])
+const dishes = ref([])
 const toBusinessInfo = (businessId) => {
   router.push({ path: '/businessInfo', query: { businessId: businessId } });
 } 

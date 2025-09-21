@@ -52,10 +52,20 @@
 <script setup>
 import Footer from '@/components/PageFooter.vue'; 
 import { useRouter} from 'vue-router'
+import { useUserStore } from '@/stores/user';
+
+const uerStore = useUserStore()
 
 const router = useRouter()
 const goAddress = () =>{
   router.push('/userAddress')
+
+}
+
+const logout = () =>{
+  uerStore.removeToken()
+  router.push('/')
+
 
 }
 </script>
@@ -68,10 +78,9 @@ const goAddress = () =>{
 }
 .mine-header {
   display: flex;
-  align-items: center;
   padding: 16px 12px 8px 12px;
-  background: #fff;
-  position: relative;
+  height: 62vw;
+  background: linear-gradient(to bottom, #0588d4, #f5f6f7);
 }
 .mine-avatar {
   width: 38px;
@@ -95,13 +104,17 @@ const goAddress = () =>{
   font-size: 14px;
   padding: 0 14px;
   line-height: 28px;
+  height: 28px;
   margin-left: 6px;
   cursor: pointer;
 }
 .mine-assets-card {
+  z-index: 100;
+  position: relative;
   background: #fff;
   border-radius: 16px;
-  margin: 14px 8px 0 8px;
+  margin: 0px 8px 0 8px;
+  transform: translateY(-120px); 
   display: flex;
   justify-content: space-around;
   align-items: stretch;
@@ -145,6 +158,7 @@ const goAddress = () =>{
   justify-content: space-around;
   flex-wrap: wrap;
   box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  transform: translateY(-100px); 
 }
 .mine-menu-item {
   width: 25%;

@@ -11,7 +11,14 @@
                     <div class="order-info">
                         <p>
                             {{item.business.businessName}}
-                            <i class="fa fa-caret-down" @click="detailetShow(item)"></i>
+                            <el-icon @click="detailetShow(item)">
+                                <div v-if="item.isShowDetailet">
+                                    <ArrowDown />
+                                </div>
+                                <div v-else>
+                                    <ArrowLeft />
+                                </div>
+                            </el-icon>
                         </p>
                     <div class="order-info-right">
                         <p>&#165;{{item.orderTotal}}</p>
@@ -78,10 +85,6 @@ onMounted(async()=>{
     const res = await listOrdersByUserId()
     orderArr.value=res.data.data
 })    
-       
-            
-    
-
      
    
  </script>
@@ -114,7 +117,7 @@ onMounted(async()=>{
     padding: 4vw;
     font-size: 4vw;
     font-weight: 300;
-    color: #26acd1;
+    color: #666f72;
  }
  .wrapper .order {
     width: 100%;

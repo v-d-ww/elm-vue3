@@ -31,18 +31,24 @@
 import Footer from '@/components/PageFooter.vue';
 import { useRouter,useRoute } from 'vue-router';
 import { ref,onMounted } from 'vue'
-import { getBusinessList1 } from '@/api/dishes'
+import { getBusinessList1,getBusinessFuzzy } from '@/api/dishes'
 
 const router = useRouter()
 const route = useRoute()
 const businessArr = ref([])
 const orderTypeId = route.query.index
+const businessFuzzy = route.query.businessFuzzy
 
 onMounted(async() =>{
-    const res = await getBusinessList1(orderTypeId)
-    businessArr.value = res.data.data
-    console.log(orderTypeId);
-    
+    if(businessFuzzy){
+        const params = { businessFuzzy:  businessFuzzy }
+        const res = getBusinessFuzzy(params)
+        businessArr.value = res.data.data
+    }else{
+        const res = await getBusinessList1(orderTypeId)
+        businessArr.value = res.data.data
+    }
+     
 
 })
 
@@ -102,6 +108,7 @@ const toBusinessInfo = (businessId)=> {
 .wrapper .business li .business-img img {
     width: 20vw;
     height: 20vw;
+    border-radius: 20px;
 }
 
 .wrapper .business li .business-img .business-img-quantity {

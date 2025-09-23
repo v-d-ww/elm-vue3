@@ -19,7 +19,14 @@
                 <el-input size="large" :prefix-icon="User" v-model="formUser.email" placeholder="请输入邮箱"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input size="large" :prefix-icon="Lock" v-model="formUser.password" placeholder="请输入密码"></el-input>
+                <el-input 
+                    size="large" 
+                    :prefix-icon="Lock" 
+                    v-model="formUser.password" 
+                    placeholder="请输入密码" 
+                    type="password"
+                    show-password>
+                </el-input>
             </el-form-item>
             <el-form-item prop="repassword">
                 <el-input size="large" :prefix-icon="Lock" v-model="formUser.repassword" placeholder="请再次输入密码"></el-input>

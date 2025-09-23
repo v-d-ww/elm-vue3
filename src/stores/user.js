@@ -4,7 +4,7 @@ import { ref } from 'vue'
 export const useUserStore = defineStore('big-user',() => {
   const token = ref('')
   const userName = ref('')
-  const userId = ref('')
+  const userEmail = ref('')
   const userImg = ref('')
   const setToken = (newToken) =>{
     token.value=newToken
@@ -12,8 +12,8 @@ export const useUserStore = defineStore('big-user',() => {
   const setName = (newToken) =>{
     userName.value=newToken
   }
-  const setId = (id) =>{
-    userId.value=id
+  const setEmail = (email) =>{
+    userEmail.value=email
   }
   const setImg = (img) =>{
     userImg.value=img
@@ -27,10 +27,10 @@ export const useUserStore = defineStore('big-user',() => {
     token,
     userName,
     userImg,
-    userId,
+    userEmail,
     setToken,
     setName,
-    setId,
+    setEmail,
     setImg,
     removeToken,
     

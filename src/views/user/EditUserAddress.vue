@@ -3,44 +3,9 @@
         <!-- header部分 -->
         <header>
             <p>{{isEdit ? '编辑地址' : '新增地址' }} </p>
-            <!-- <p>新增送货地址</p> -->
         </header>
+        <!-- <img src="@/assets/map.png" alt=""> -->
         <!-- 表单部分 -->
-        <!-- <ul class="form-box">
-            <li>
-                <div class="title">
-                    联系人：
-                </div>
-                <div class="content">
-                    <input type="text" v-model="deliveryAddress.contactName" placeholder="联系人姓名">
-                </div>
-            </li>
-            <li>
-                <div class="title">
-                    性别：
-                </div>
-                <div class="content" style="font-size: 3vw;">
-                    <input type="radio" v-model="deliveryAddress.contactSex" value="1" style="width:6vw;height:3.2vw;" checked>男
-                    <input type="radio" v-model="deliveryAddress.contactSex" value="0" style="width:6vw;height:3.2vw;">女
-                </div>
-            </li>
-            <li>
-                <div class="title">
-                    电话：
-                </div>
-                <div class="content">
-                    <input type="tel" v-model="deliveryAddress.contactTel" placeholder="电话">
-                </div>
-            </li>
-            <li>
-                <div class="title">
-                    收货地址：
-                </div>
-                <div class="content">
-                    <input type="text" v-model="deliveryAddress.address" placeholder="收货地址">
-                </div>
-            </li>
-        </ul> -->
         <div class="container">
         <el-form
             :model="deliveryAddress"
@@ -151,8 +116,12 @@ const rules = {
 .wrapper {
     width: 100%;
     height: 100%;
-    /* background-color: #F5F5F5; */
+    margin:0;
+    padding: 0;
+    background:url('@/assets/map.png');
+    background-position: -40px -10px;
 }
+
 /*************** header ***************/
 .wrapper header {
     width: 100%;
@@ -164,7 +133,6 @@ const rules = {
     align-items: center;
     color: #000;
     font-size: 4.8vw;
-    border-bottom: solid 1px #DDD;
 }
 /*************** （表单信息） ***************/
 .wrapper .button-add {
@@ -183,9 +151,13 @@ const rules = {
     background-color: #47ade8;
 }
 .container{
-    width: 100%;
-    padding:25px 10px 20px 10px;
+    width: 95%;
+    padding:20px 10px 20px 10px;
     background-color: #fff;
     box-sizing: border-box;
+    margin:0 auto;
+    transform: translateY(40vw);
+    border-radius: 10px;
+    height: 75vh;
 }
 </style>

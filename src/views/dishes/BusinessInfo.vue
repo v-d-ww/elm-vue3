@@ -1,14 +1,15 @@
 <template>
     <!-- header部分 -->
-    <header>
+    <!-- <header>
         <p>商家信息</p>
-    </header>
+    </header> -->
     <div class="wrapper">
         <!-- 商家部分 -->
-        <div>
+        <div class="business">
             <!-- 商家logo部分 -->
             <div class="business-logo">
-                <img :src="business.businessImg">
+                <!-- <img :src="business.businessImg"> -->
+                <img src="@/assets/sj04.png">
             </div>
             <!-- 商家信息部分 -->
             <div class="business-info">
@@ -114,59 +115,59 @@ import { Plus,Minus } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const businessId = route.query.businessId
-const category = ref([])
-// const category = ref([
-//   { id: 1, name: '主食系列' },
-//   { id: 2, name: '汤品' },
-//   { id: 3, name: '小菜' },
-//   { id: 4, name: '饮品' }
-// ])
+// const category = ref([])
+const category = ref([
+  { id: 1, name: '主食系列' },
+  { id: 2, name: '汤品' },
+  { id: 3, name: '小菜' },
+  { id: 4, name: '饮品' }
+])
 const activeCategory = ref()
-// const business = ref({
-//     businessId:businessId,
-//     businessName:'米村',
-//     businessAddress:'沈阳',
-//     businessExplain:'套餐拌饭',
-//     businessImg:'@/assets/sj04.png',
-//     starPrice:15,
-//     deliveryPrice:3,
-//     packAmount:1,
-//     status:1,
-//     remarks:'营业时间',
-//     rating:5,
-//     totalSales:0
-// })
+const business = ref({
+    businessId:businessId,
+    businessName:'米村',
+    businessAddress:'沈阳',
+    businessExplain:'套餐拌饭',
+    businessImg:'@/assets/sj04.png',
+    starPrice:15,
+    deliveryPrice:3,
+    packAmount:1,
+    status:1,
+    remarks:'营业时间',
+    rating:5,
+    totalSales:0
+})
 
 
 // 食品列表数据
-// const foodArr = ref([
-//   {
-//     id: 1,
-//     foodName: '石锅拌饭',
-//     foodExplain: '经典韩式拌饭，营养丰富',
-//     foodPrice: 25,
-//     foodImg: '@/assets/food01.jpg',
-//     quantity: 0
-//   },
-//   {
-//     id: 2,
-//     foodName: '泡菜汤',
-//     foodExplain: '酸辣开胃的韩式汤品',
-//     foodPrice: 18,
-//     foodImg: '@/assets/food02.jpg',
-//     quantity: 0
-//   },
-//   {
-//     id: 3,
-//     foodName: '韩式烤肉',
-//     foodExplain: '香嫩多汁的烤肉',
-//     foodPrice: 35,
-//     foodImg: '@/assets/food03.jpg',
-//     quantity: 0
-//   }
-// ])
-const foodArr = ref([])
-const business = ref({})
+const foodArr = ref([
+  {
+    id: 1,
+    foodName: '石锅拌饭',
+    foodExplain: '经典韩式拌饭，营养丰富',
+    foodPrice: 25,
+    foodImg: '@/assets/food01.jpg',
+    quantity: 0
+  },
+  {
+    id: 2,
+    foodName: '泡菜汤',
+    foodExplain: '酸辣开胃的韩式汤品',
+    foodPrice: 18,
+    foodImg: '@/assets/food02.jpg',
+    quantity: 0
+  },
+  {
+    id: 3,
+    foodName: '韩式烤肉',
+    foodExplain: '香嫩多汁的烤肉',
+    foodPrice: 35,
+    foodImg: '@/assets/food03.jpg',
+    quantity: 0
+  }
+])
+// const foodArr = ref([])
+// const business = ref({})
 const cartArr = ref([])
 
 const handleSelect = async (index) =>{
@@ -295,20 +296,19 @@ header {
 }
 
 /****************** 商家logo部分 ******************/
-.wrapper .business-logo {
+.wrapper .business{
     width: 100%;
-    height: 35vw;
-    /*使用上外边距避开header部分*/
-    margin-top: 12vw;
-    display: flex;
+    height: 60vw;
+    /* margin-top: 12vw; */
+    /* display: flex;
     justify-content: center;
-    align-items: center;
-}
+    align-items: center; */
 
+}
 .wrapper .business-logo img {
-    width: 40vw;
-    height: 30vw;
-    border-radius: 5px;
+    width: 100vw;
+    height: 40vw;
+    /* border-radius: 20px; */
 }
 
 /****************** 商家信息部分 */
@@ -339,12 +339,14 @@ header {
     width:100%;
     background-color: #f5f5f5;
     overflow-y: auto;
+    border: none;
 
 }
 :deep(.el-menu){
     padding: 0;
     margin:0;
     background-color: #f5f5f5;
+    border-radius: 10px !important;
 }
 :deep(.el-menu-item){
     text-align: center !important;
@@ -353,6 +355,7 @@ header {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    border-radius: 10px !important;
 }
 .wrapper .food {
     width: 100%;
@@ -381,6 +384,7 @@ header {
 .wrapper .food li .food-left img {
     width: 20vw;
     height: 20vw;
+    border-radius: 20px;
 }
 
 .wrapper .food li .food-left .food-left-info {

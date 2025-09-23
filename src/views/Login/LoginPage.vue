@@ -16,7 +16,14 @@
                 <el-input size="large" :prefix-icon="User" v-model="formUser.email" placeholder="请输入邮箱"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input size="large" :prefix-icon="Lock" v-model="formUser.password" placeholder="请输入密码"></el-input>
+                <el-input 
+                size="large" 
+                :prefix-icon="Lock" 
+                v-model="formUser.password" 
+                placeholder="请输入密码"
+                type="password"
+                show-password
+                ></el-input>
             </el-form-item>
             <el-form-item prop="checkCode" style="display: flex; align-items: center; gap: 10px;">
                 <el-input size="large" :prefix-icon="Key" v-model="formUser.checkCode" placeholder="请输入验证码" style="width: 60%;padding-right: 5px;"></el-input>

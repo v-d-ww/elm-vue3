@@ -1,77 +1,116 @@
 <template>
-    <!-- header部分 -->
-    <!-- <header>
-        <p>商家信息</p>
-    </header> -->
     <div class="wrapper">
         <!-- 商家部分 -->
         <div class="business">
+            <!-- 商家广告部分 -->
+             <div class="business-ad">
+                <img :src="business.adImg">
+                <!-- <img src="@/assets/sj04.png"> -->
+             </div>
             <!-- 商家logo部分 -->
             <div class="business-logo">
-                <!-- <img :src="business.businessImg"> -->
-                <img src="@/assets/sj04.png">
-            </div>
-            <!-- 商家信息部分 -->
-            <div class="business-info">
-                <h1>{{ business.businessName }}</h1>
-                <p>&#165;{{ business.starPrice }}起送 &#165;{{ business.deliveryPrice }}配送</p>
-                <p>{{ business.businessExplain }}</p>
+                <img :src="business.businessImg">
+                <!-- <img src="@/assets/sj04.png"> -->
+            
+                <!-- 商家信息部分 -->
+                <div class="business-info">
+                    <div style="font-size: 25px;font-weight: 700;">{{ business.businessName }}</div>
+                    <div style="display: flex; gap: 10px;padding-top: 10px;">
+                        <div class="delivery-item">
+                            <div class="des">起送</div><div class="price">￥{{ business.starPrice }}</div>
+                        </div>
+                        <div class="delivery-item">
+                            <div class="des">配送</div><div class="price">￥{{ business.deliveryPrice }}</div>
+                        </div>
+                        <div class="delivery-item">
+                            <div class="des">美食描述</div><div class="price">{{ business.businessExplain }}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>  
         <!-- 菜品部分  -->
-        <el-row style="flex:1;padding-top: 5px ;">
-             <!-- 食品分类部分 -->
-            <el-col :span="4" class="category">
-                <el-menu
-                 :default-active="activeCategory"
-                 @select="handleSelect"
-                 >
-                    <el-menu-item 
-                        v-for="cate in category"
-                        :key="cate.id"
-                        :index="cate.id"
-                    >
-                        {{ cate.name}}
-                    </el-menu-item>
-                </el-menu>
-            </el-col>
+        <!-- <el-row style="flex:1;background-color: #fff;"> -->
+            <el-tabs
+                v-model="activeName"
+                type="card"
+                class="demo-tabs"
+                @tab-click="handleClick"
+            >
+                <!-- 点菜部分 -->
+                <el-tab-pane label="点菜" name="点菜" style="height: 100%;">
+                    <!-- 分类部分 -->
+                    <el-row style="height: 100%;">
+                        <el-col :span="4" class="category">
+                            <el-menu
+                            :default-active="activeCategory"
+                            @select="handleSelect"
+                            >
+                                <el-menu-item 
+                                    v-for="cate in category"
+                                    :key="cate.id"
+                                    :index="cate.id"
+                                >
+                                    {{ cate.name}}
+                                </el-menu-item>
+                            </el-menu>
+                        </el-col>
+                        <!-- 食品列表部分 -->
+                        <el-col :span="20">
+                            <!-- 分割线 -->
+                            <el-divider style="padding:0;margin:3px 0 10px 0;">
+                                <span style="color:#959090;font-size: smaller;">温馨提示：请适量点餐</span>
+                            </el-divider>
+                            <ul class="food">
+                            <li v-for="(item, index) in foodArr" :key="item.id">
+                                <div class="food-left">
+                                    <img :src="item.foodImg">
+                                    <div class="food-left-info">
+                                        <h3>{{ item.foodName }}</h3>
+                                        <p>{{ item.foodExplain }}</p>
+                                        <p>￥{{ item.foodPrice }}</p>
+                                    </div>
+                                </div>
+                                <div class="food-right">
+                                    <div>
+                                        <el-icon 
+                                            @click="minus(index)" 
+                                            v-show="item.quantity != 0"
+                                            style="background-color: #959090; color: white; padding: 4px; border-radius: 50%;"
+                                        ><Minus /></el-icon>
+                                    </div>
+                                    <p><span>{{ item.quantity }}</span></p>
+                                    <div>
+                                        <el-icon 
+                                            @click="add(index)" 
+                                            style="background-color: #409EFF; color: white; padding: 4px; border-radius: 50%;"
+                                        ><Plus /></el-icon>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        </el-col>
+                    </el-row>
+                </el-tab-pane>
+                <el-tab-pane label="评价" name="评价" style="height: 100%;margin-bottom: 8vh;">
+                    <div v-for="item in evalList" :key="item.id" class="user-info">
+                        <div class="user-header">
+                            <!-- <img class="mine-avatar" :src="item.userImg"> -->
+                            <img class="mine-avatar" src="@/assets/sj04.png">
+                            <div style="font-weight: 700;line-height: 10vw;">{{ item.nickName }}</div>
+                        </div>
+                        <div class="evalContent">{{ item.content }}</div>
+                        <div style="color: #959090;">{{ item.time }}</div>
+                    </div>
 
-            <!-- 食品列表部分 -->
-            <el-col :span="20">
-                <!-- 分割线 -->
-        <el-divider style="padding:0;margin:0">
-            <span style="color:#959090;font-size: smaller;">温馨提示：请适量点餐</span>
-        </el-divider>
-                <ul class="food">
-                <li v-for="(item, index) in foodArr" :key="item.id">
-                    <div class="food-left">
-                        <img :src="item.foodImg">
-                        <div class="food-left-info">
-                            <h3>{{ item.foodName }}</h3>
-                            <p>{{ item.foodExplain }}</p>
-                            <p>￥{{ item.foodPrice }}</p>
-                        </div>
-                    </div>
-                    <div class="food-right">
-                        <div>
-                            <el-icon 
-                                @click="minus(index)" 
-                                v-show="item.quantity != 0"
-                                style="background-color: #959090; color: white; padding: 4px; border-radius: 50%;"
-                            ><Minus /></el-icon>
-                        </div>
-                        <p><span>{{ item.quantity }}</span></p>
-                        <div>
-                            <el-icon 
-                                @click="add(index)" 
-                                style="background-color: #409EFF; color: white; padding: 4px; border-radius: 50%;"
-                            ><Plus /></el-icon>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            </el-col>
-        </el-row>
+                </el-tab-pane>
+            </el-tabs>
+            
+
+            
+        <!-- </el-row> -->
+        <!-- 评价页面 -->
+
         
     </div>
     <!-- 购物车部分 -->
@@ -115,60 +154,122 @@ import { Plus,Minus } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const businessId = route.query.businessId
-// const category = ref([])
-const category = ref([
-  { id: 1, name: '主食系列' },
-  { id: 2, name: '汤品' },
-  { id: 3, name: '小菜' },
-  { id: 4, name: '饮品' }
-])
+const category = ref([])
+// const category = ref([
+//   { id: 1, name: '主食系列' },
+//   { id: 2, name: '汤品' },
+//   { id: 3, name: '小菜' },
+//   { id: 4, name: '饮品' }
+// ])
 const activeCategory = ref()
-const business = ref({
-    businessId:businessId,
-    businessName:'米村',
-    businessAddress:'沈阳',
-    businessExplain:'套餐拌饭',
-    businessImg:'@/assets/sj04.png',
-    starPrice:15,
-    deliveryPrice:3,
-    packAmount:1,
-    status:1,
-    remarks:'营业时间',
-    rating:5,
-    totalSales:0
-})
+const activeName = ref('点菜')
+const handleClick = (tab) => {
+    activeName.value = tab.props.name
+}
+// const business = ref({
+//     businessId:businessId,
+//     businessName:'米村',
+//     businessAddress:'沈阳',
+//     businessExplain:'套餐拌饭',
+//     businessImg:'@/assets/sj04.png',
+//     starPrice:15,
+//     deliveryPrice:3,
+//     packAmount:1,
+//     status:1,
+//     remarks:'营业时间',
+//     rating:5,
+//     totalSales:0
+// })
 
 
 // 食品列表数据
-const foodArr = ref([
-  {
-    id: 1,
-    foodName: '石锅拌饭',
-    foodExplain: '经典韩式拌饭，营养丰富',
-    foodPrice: 25,
-    foodImg: '@/assets/food01.jpg',
-    quantity: 0
-  },
-  {
-    id: 2,
-    foodName: '泡菜汤',
-    foodExplain: '酸辣开胃的韩式汤品',
-    foodPrice: 18,
-    foodImg: '@/assets/food02.jpg',
-    quantity: 0
-  },
-  {
-    id: 3,
-    foodName: '韩式烤肉',
-    foodExplain: '香嫩多汁的烤肉',
-    foodPrice: 35,
-    foodImg: '@/assets/food03.jpg',
-    quantity: 0
-  }
-])
-// const foodArr = ref([])
-// const business = ref({})
+// const foodArr = ref([
+//   {
+//     id: 1,
+//     foodName: '石锅拌饭',
+//     foodExplain: '经典韩式拌饭，营养丰富',
+//     foodPrice: 25,
+//     foodImg: '@/assets/food01.jpg',
+//     quantity: 0
+//   },
+//   {
+//     id: 1,
+//     foodName: '石锅拌饭',
+//     foodExplain: '经典韩式拌饭，营养丰富',
+//     foodPrice: 25,
+//     foodImg: '@/assets/food01.jpg',
+//     quantity: 0
+//   },
+//   {
+//     id: 1,
+//     foodName: '石锅拌饭',
+//     foodExplain: '经典韩式拌饭，营养丰富',
+//     foodPrice: 25,
+//     foodImg: '@/assets/food01.jpg',
+//     quantity: 0
+//   },
+//   {
+//     id: 1,
+//     foodName: '石锅拌饭',
+//     foodExplain: '经典韩式拌饭，营养丰富',
+//     foodPrice: 25,
+//     foodImg: '@/assets/food01.jpg',
+//     quantity: 0
+//   },
+//   {
+//     id: 2,
+//     foodName: '泡菜汤',
+//     foodExplain: '酸辣开胃的韩式汤品',
+//     foodPrice: 18,
+//     foodImg: '@/assets/food02.jpg',
+//     quantity: 0
+//   },
+//   {
+//     id: 3,
+//     foodName: '韩式烤肉',
+//     foodExplain: '香嫩多汁的烤肉',
+//     foodPrice: 35,
+//     foodImg: '@/assets/food03.jpg',
+//     quantity: 0
+//   }
+// ])
+
+const foodArr = ref([])
+const evalList = ref([])
+const business = ref({})
 const cartArr = ref([])
+// const evalList = ref([
+// {
+//     id: 1,
+//     userImg: '@/assets/sj04.png',
+//     nickName: '阿明',
+//     content: '口味不错，分量很足，配送也很快！',
+//     time: '2025-09-21 14:32'
+//   },
+//   {
+//     id: 2,
+//     userImg: 'https://i.pravatar.cc/80?img=2',
+//     nickName: '小李',
+//     content: '环境干净，打包严实，推荐牛肉面。',
+//     time: '2025-09-22 09:15'
+//   },
+//   {
+//     id: 3,
+//     userImg: 'https://i.pravatar.cc/80?img=3',
+//     nickName: 'Grace',
+//     content: '甜度刚好，奶茶不腻，回购。',
+//     time: '2025-09-22 18:47'
+//   },
+//   {
+//     id: 4,
+//     userImg: 'https://i.pravatar.cc/80?img=4',
+//     nickName: '木子',
+//     content: '送达时还是热的，商家态度很好。',
+//     time: '2025-09-23 12:03'
+//   }
+
+// ])
+
 
 const handleSelect = async (index) =>{
     activeCategory.value = index
@@ -178,7 +279,7 @@ const handleSelect = async (index) =>{
             ...item, 
             quantity: 0  // 初始化为0
     }))
-    // foodArr.value = res.data.data
+    foodArr.value = res.data.data
     await getCart(businessId)
 }
 // 计算总数量
@@ -275,6 +376,8 @@ onMounted(async () => {
     height: 100%;
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    background-color: #f2f3f5;
 }
 
 /****************** header部分 ******************/
@@ -298,17 +401,35 @@ header {
 /****************** 商家logo部分 ******************/
 .wrapper .business{
     width: 100%;
-    height: 60vw;
-    /* margin-top: 12vw; */
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.business-ad{
+    width: 100%;
+    height: 40vw;
+    background-color: #0097EF;
+}
+.business-ad img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill; 
+}
+.business-logo{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    
 }
 .wrapper .business-logo img {
-    width: 100vw;
-    height: 40vw;
-    /* border-radius: 20px; */
+    width: 20vw;
+    height: 20vw;
+    border-radius: 10px;
 }
 
 /****************** 商家信息部分 */
@@ -318,9 +439,42 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* align-items: center; */
+    /* background-color: red; */
+}
+.delivery-item{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-right: 20px;
+    /* border-right: 1px solid #DDD; */
+    justify-content: center;
     align-items: center;
+    position: relative;
+
 }
 
+.delivery-item::after{
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 60%; /* 调整这里，变短或变长 */
+    background: #DDD;
+}
+
+.delivery-item:last-child::after{
+    display: none; /* 最后一个不显示右侧线 */
+}
+.delivery-item .des{
+    font-size: small;
+}
+.delivery-item .price{
+    font-size: small;
+    font-weight: 700;
+}
 .wrapper .business-info h1 {
     font-size: 5vw;
 }
@@ -340,6 +494,7 @@ header {
     background-color: #f5f5f5;
     overflow-y: auto;
     border: none;
+    /* background-color: red; */
 
 }
 :deep(.el-menu){
@@ -506,21 +661,29 @@ header {
     justify-content: center;
     align-items: center;
 }
-
-/*不够起送费时的样式(只有背景色和鼠标样式的区别)*/
-/*
-.wrapper .cart .cart-right .cart-right-item{
-    width: 100%;
-    height: 100%;
-    background-color: #535356;
-    color: #fff;
-    font-size: 4.5vw;
-    font-weight: 700;
-    user-select: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.demo-tabs{
+    background-color: #fff;
+    flex:1;
+    border-radius: 10px;
 }
-*/
-
+.user-info{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    border-bottom: 1px solid #DDD;
+    border-radius: 10px;
+}
+.user-header{
+    display: flex;
+    gap:10px;
+    align-content: center;
+    /* background-color: red; */
+}
+.mine-avatar{
+    border-radius: 50%;
+    height:10vw;
+    width:10vw;
+        
+}
 </style>

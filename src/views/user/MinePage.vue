@@ -74,7 +74,7 @@ const logout = () =>{
   router.push('/')
 }
 const goOrders = () =>{
-  router.push('/orderList')
+  router.push({path:'/businessList',query:{index:1}})
 
 }
 </script>
@@ -151,8 +151,9 @@ const goOrders = () =>{
   background: #fff;
   border-radius: 16px;
   margin: 0 auto;
-  padding: 0;
-  width:90%;
+  padding: 0 10px;
+  width:95%;
+  box-sizing: border-box;
   /* display: flex;
   justify-content: space-around;
   flex-wrap: wrap; */

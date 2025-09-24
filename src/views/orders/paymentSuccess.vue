@@ -17,7 +17,8 @@
       后期正在加紧制作中，请耐心等待~
     </div>
     <div class="buttonContainer">
-      <el-button size="large" style="background:#5AC8FF;color: #000;" @click="goToHome">返回首页</el-button>
+      <el-button
+      style="border: 1px solid #7ec6fd;background: #f9fcff;color: #409eff;" @click="goToHome">返回首页</el-button>
       <el-button size="large" style="color: #000;" @click="goToOrders">查看订单</el-button>
     </div>
   </div>
@@ -61,7 +62,7 @@ const goToOrders = () => {
 .wrapper {
    width: 100%;
    height: 100vh;
-   background: #f5f5f5
+   background: #fff
 }
 /****************** header部分 ******************/
 .wrapper header {
@@ -80,7 +81,7 @@ const goToOrders = () => {
    align-items: center;
 }
 .successImg{
-  padding-top:30vw ;
+  padding-top:50vw ;
   margin:0 auto 0;
   text-align: center; 
 }
@@ -95,8 +96,14 @@ const goToOrders = () => {
 
 }
 .buttonContainer{
-  padding:20px;
+  padding:60px;
   display:flex;
-  justify-content: space-around;
+  gap:60px;
+  justify-content: center;
+  /* background-color: red; */
+}
+.el-button{
+  height: 48px;
+  width: 98px;
 }
 </style>

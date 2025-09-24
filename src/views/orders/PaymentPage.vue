@@ -13,9 +13,9 @@
             ￥{{orders.orderTotal}}
          </div>
         <!-- 订单信息部分 -->
-        <h3>订单信息:</h3>
-        <div class="order-info">
         
+        <div class="order-info">
+           <div class="order">
                 {{orders.business.businessName}}
                 <el-icon @click="detailetShow">
                     <div v-if="isShowDetailet">
@@ -26,7 +26,7 @@
 
                     </div>
                 </el-icon>
-            
+              </div>
         </div>
         <!-- 订单明细部分 -->
         <ul class="order-detailet" v-show="isShowDetailet">
@@ -41,6 +41,7 @@
         </ul>
 <!-- 支付方式部分 -->
 <div class="payment-type">
+  <div class="payment-choose">选择支付方式</div>
   <div 
     class="pay-radio-label"
     @click="selectPayType('alipay')"
@@ -50,10 +51,10 @@
       <p>支付宝支付</p>
     </div> 
     <div class="check-icon" v-if="payType === 'alipay'">
-        <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="32" height="32"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#09b214" p-id="14059"></path></svg>
+        <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="28" height="28"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#09b214" p-id="14059"></path></svg>
       </div>
       <div class="check-icon" v-else>
-        <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="32" height="32"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#C6CCDA" p-id="14059"></path></svg>
+        <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="28" height="28"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#C6CCDA" p-id="14059"></path></svg>
       </div>
   </div>
   <div 
@@ -65,10 +66,10 @@
       <p>微信支付</p>
     </div>
       <div class="check-icon" v-if="payType === 'wechat'">
-        <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="32" height="32"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#09b214" p-id="14059"></path></svg>
+        <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="28" height="28"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#09b214" p-id="14059"></path></svg>
       </div>
       <div class="check-icon" v-else>
-        <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="32" height="32"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#C6CCDA" p-id="14059"></path></svg>
+        <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="28" height="28"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#C6CCDA" p-id="14059"></path></svg>
       </div>
   </div>
 </div>
@@ -77,12 +78,9 @@
         </div>
         
     </div>
-    <!-- 底部菜单部分 -->
-    <Footer></Footer>
 </template>
 
 <script setup>
-import Footer from '@/components/PageFooter.vue';
 import { useRouter,useRoute } from 'vue-router'
 import { ref,computed, onMounted, onBeforeUnmount } from 'vue'
 import { ArrowDown,ArrowLeft } from '@element-plus/icons-vue'
@@ -213,7 +211,7 @@ onBeforeUnmount(() => {
     .wrapper {
         width: 100%;
         min-height: 100vh;
-        background-color: #F5F5F5;
+        background-color: #f2f3f5;
     }
 
     /****************** header部分 */
@@ -238,7 +236,7 @@ onBeforeUnmount(() => {
     /****************** 订单信息部分 ******************/
     .countdown{
         margin-top: 12vw;
-        padding-top: 3vw;
+        padding-top: 10vw;
         padding-bottom: 3vw;
         font-size: 4vw; 
         color: #999;
@@ -249,6 +247,7 @@ onBeforeUnmount(() => {
         font-size: 7vw;
         font-weight: 600;
         text-align: center;
+        margin-bottom: 40px;
     }
     .wrapper h3 {
         /* margin-top: 12vw; */
@@ -263,14 +262,19 @@ onBeforeUnmount(() => {
         box-sizing: border-box;
         padding: 4vw;
         font-size: 4vw;
-        color: #666;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        color: #000;
+        
         background-color: #fff;
         margin:10px 10px 0 10px;
         border-radius: 10px 10px 0 0;
         
+    }
+    .wrapper .order-info .order{
+      width:100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
     }
 
 
@@ -301,9 +305,16 @@ onBeforeUnmount(() => {
     
         box-sizing: border-box;
         background-color: #fff;
-        margin:10px;
+        margin:20px 10px;
+        padding:20px 10px;
         border-radius: 10px; 
              
+    }
+    .payment-choose{
+      padding-bottom: 5px;
+      font-size: medium;
+      font-weight: 700;
+      color:#000;
     }
     .pay-radio-label{
         display: flex;
@@ -311,8 +322,8 @@ onBeforeUnmount(() => {
         justify-content: space-between; /* 两端对齐 */
         /* width: 100%; */
         height:40px;
-        padding:10px; 
-        border-bottom: solid 1px #f1f0f0;
+        padding-top:10px; 
+        /* border-bottom: solid 1px #f1f0f0; */
     }
 
     .payment{
@@ -323,8 +334,8 @@ onBeforeUnmount(() => {
         height: 8vw;
     }
     .payment img {
-        width: 8vw;
-        height: 8vw;
+        width: 7vw;
+        height: 7vw;
     }
     .payment p{
         line-height: 8vw;
@@ -334,6 +345,7 @@ onBeforeUnmount(() => {
         width: 100%;
         box-sizing: border-box;
         padding: 4vw;
+        margin-top: 55vw;
     }
 
     .wrapper .payment-button button {
@@ -342,7 +354,7 @@ onBeforeUnmount(() => {
         border: none;
         /*去掉外轮廓线*/
         outline: none;
-        border-radius: 4px;
+        border-radius: 10px;
         background-color: #47ade8;
         color: #fff;
     }

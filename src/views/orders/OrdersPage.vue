@@ -165,9 +165,9 @@ onMounted(async()=>{
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background: #f5f5f5 !important;
-    border-bottom: 1px solid #e4e7ed !important;
-    color: #000;
+    background: #179eec !important;
+    /* border-bottom: 1px solid #e4e7ed !important; */
+    color: #fff;
     font-size: 4.8vw;
     position: fixed;
     left: 0;
@@ -183,11 +183,11 @@ onMounted(async()=>{
     /*注意这里,不设置高,靠内容撑开｡因为地址有可能折行*/
     width: 100%;
     margin-top: 12vw;
-    background: linear-gradient(to bottom, #0588d4, #d6e8fa);;
+    background: linear-gradient(to bottom, #179eec, #d6e8fa);;
     box-sizing: border-box;
-    padding: 2vw;
+    padding: 10vw 2vw;
     color: #fff;
-    min-height: 30vw ;
+    min-height: 50vw ;
 }
 
 .wrapper .order-info h5 {
@@ -277,6 +277,7 @@ onMounted(async()=>{
     background-color: #fff;
     border: 1px solid #e4e7ed;
     border-radius: 20px 20px 0 0 ;
+    transform: translateY(-5vh);
 }
 
 /****************** 订单合计部分 */

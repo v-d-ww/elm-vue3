@@ -17,12 +17,12 @@
             </el-form-item>
             <el-form-item prop="password">
                 <el-input 
-                size="large" 
-                :prefix-icon="Lock" 
-                v-model="formUser.password" 
-                placeholder="请输入密码"
-                type="password"
-                show-password
+                    size="large" 
+                    :prefix-icon="Lock" 
+                    v-model="formUser.password" 
+                    placeholder="请输入密码"
+                    type="password"
+                    show-password
                 ></el-input>
             </el-form-item>
             <el-form-item prop="checkCode" style="display: flex; align-items: center; gap: 10px;">
@@ -85,7 +85,7 @@
         const res = await userLoginService(formUser.value)
         userStore.setToken(res.data.data.token)
         userStore.setName(res.data.data.nickName)
-        userStore.setId(res.data.data.userId)
+        userStore.setEmail(res.data.data.userEmail)
         userStore.setImg(res.data.data.userImg)
         ElMessage.success('登录成功')
         router.push('/')

@@ -6,6 +6,7 @@ export const useUserStore = defineStore('big-user',() => {
   const userName = ref('')
   const userEmail = ref('')
   const userImg = ref('')
+  const userBrief = ref('')
   const setToken = (newToken) =>{
     token.value=newToken
   }
@@ -18,8 +19,17 @@ export const useUserStore = defineStore('big-user',() => {
   const setImg = (img) =>{
     userImg.value=img
   }
+  const setBrief = (c) =>{
+    userBrief.value=c
+  }
   const removeToken=()=>{
     token.value=''
+  }
+
+  const updateUserInfo = (payload = {}) => {
+    if ('userName' in payload) userName.value = payload.userName || ''
+    if ('userEmail' in payload) userEmail.value = payload.userEmail || ''
+    if ('userBrief' in payload) userBrief.value = payload.userBrief || ''
   }
 
 
@@ -28,11 +38,14 @@ export const useUserStore = defineStore('big-user',() => {
     userName,
     userImg,
     userEmail,
+    userBrief,
     setToken,
     setName,
     setEmail,
     setImg,
     removeToken,
+    setBrief,
+    updateUserInfo
     
   }
 }, {

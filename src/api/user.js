@@ -52,3 +52,9 @@ export const updateDeliveryAddress=(deliveryAddress)=>{
   )
 }
 
+// 更新用户信息
+export const updateUser=(userName,userEmail,userBrief)=>{
+  return request.post('UserController/updateUser', null, {
+    params: { userName,userEmail,userBrief }
+  })
+}

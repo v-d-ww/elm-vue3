@@ -42,7 +42,7 @@ const businessFuzzy = route.query.businessFuzzy
 onMounted(async() =>{
     if(businessFuzzy){
         const params = { businessFuzzy:  businessFuzzy }
-        const res = getBusinessFuzzy(params)
+        const res = await getBusinessFuzzy(params)
         businessArr.value = res.data.data
     }else{
         const res = await getBusinessList1(orderTypeId)

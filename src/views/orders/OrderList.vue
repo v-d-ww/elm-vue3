@@ -7,10 +7,10 @@
         <!-- 选项 -->
          <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
             <el-tab-pane label="全部" name="全部"></el-tab-pane>
+            <el-tab-pane label="未支付" name="未支付"></el-tab-pane>
             <el-tab-pane label="已支付" name="已支付"></el-tab-pane>
-            <el-tab-pane label="配送中" name="配送中"></el-tab-pane>
             <el-tab-pane label="已接单" name="已接单"></el-tab-pane>
-            <el-tab-pane label="已取消" name="已取消"></el-tab-pane>
+            <el-tab-pane label="配送中" name="配送中"></el-tab-pane>   
          </el-tabs>
         <!-- 全部订单 -->
         <ul class="order" v-if="activeName === '全部'">
@@ -27,7 +27,8 @@
                 <ul class="order-detailet">
                     <li v-for="odItem in item.list" :key="odItem.id">
                         <img :src="odItem.food.foodImg">
-                        <p>{{odItem.food.foodName}} x {{odItem.quantity}}</p>
+                        <!-- <p>{{odItem.food.foodName}} x {{odItem.quantity}}</p> -->
+                        <p>{{odItem.food.foodName}} ￥{{ odItem.food.foodPrice }} x {{odItem.quantity}}</p>
                     </li>
                     <div class="payment">&#165;{{item.orderTotal}}</div>
                 </ul>
@@ -80,7 +81,7 @@
                 </ul>
                 <div class="but-container">
                     <el-button size="medium" @click="toggleReview(item)">评价</el-button>
-                    <el-button type="primary" size="medium"  @click="goPayment(item)">支付</el-button>
+                    <el-button type="primary" size="medium">确认收货</el-button>
                 </div>
                 <div v-if="item.showReview" class="review-panel">
                     <div class="review-row">
@@ -126,7 +127,7 @@
                 </ul>
                 <div class="but-container">
                     <el-button size="medium" @click="toggleReview(item)">评价</el-button>
-                    <el-button type="primary" size="medium"  @click="goPayment(item)">支付</el-button>
+                    <el-button type="primary" size="medium" >确认收货</el-button>
                 </div>
                 <div v-if="item.showReview" class="review-panel">
                     <div class="review-row">
@@ -172,7 +173,7 @@
                 </ul>
                 <div class="but-container">
                     <el-button size="medium" @click="toggleReview(item)">评价</el-button>
-                    <el-button type="primary" size="medium"  @click="goPayment(item)">支付</el-button>
+                    <el-button type="primary" size="medium"  >确认收货</el-button>
                 </div>
                 <div v-if="item.showReview" class="review-panel">
                     <div class="review-row">
@@ -198,7 +199,7 @@
             </li>
         </ul>
         <!-- 已取消订单 -->
-        <ul class="order" v-if="activeName === '已取消'">
+        <ul class="order" v-if="activeName === '未支付'">
                 <li v-for="item in cancleOrders" :key="item.orderId" style="border: 1px solid #e4e7ed;">
                     <div class="order-info">
                         <p>
@@ -212,13 +213,13 @@
                 <ul class="order-detailet">
                     <li v-for="odItem in item.list" :key="odItem.id">
                         <img :src="odItem.food.foodImg">
-                        <p>{{odItem.food.foodName}} x {{odItem.quantity}}</p>
+                        <p>{{odItem.food.foodName}} ￥{{ odItem.food.foodPrice }} x {{odItem.quantity}}</p>
                     </li>
                     <div class="payment">&#165;{{item.orderTotal}}</div>
                 </ul>
                 <div class="but-container">
                     <el-button size="medium" @click="toggleReview(item)">评价</el-button>
-                    <el-button type="primary" size="medium"  @click="goPayment(item)">支付</el-button>
+                    <el-button type="primary" size="medium" v-if="item.orderState === 0">去支付</el-button>
                 </div>
                 <div v-if="item.showReview" class="review-panel">
                     <div class="review-row">
@@ -257,7 +258,7 @@ const orderArr = ref([])
 const paidOrders = computed(() => orderArr.value.filter(o => o.orderState === 1))
 const deliveryOrders = computed(() => orderArr.value.filter(o => o.orderState === 3))
 const receiveOrders = computed(() => orderArr.value.filter(o => o.orderState === 7))
-const cancleOrders = computed(() => orderArr.value.filter(o => o.orderState === 6))
+const cancleOrders = computed(() => orderArr.value.filter(o => o.orderState === 0))
 const activeName = ref('全部')
 const handleClick = (tab)=>{
     activeName.value = tab.props.name
@@ -547,7 +548,7 @@ const submitReview = async (order) => {
  .but-container{
     display: flex;
     gap: 10px;
-    margin-left: 50vw;
+    margin-left: 45vw;
     margin-top: 2px;
  }
 .review-panel{

@@ -51,15 +51,16 @@
     :before-close="handleClose"
   >
     <el-form :model="editForm">
-      <el-form-item label="头像">
+      <el-form-item>
         <el-upload
           class="avatar-uploader"
           :show-file-list="false"
-          :on-success="handleAvatarSuccess"
+          :auto-upload="false"
+          accept="image/png,image/jpeg"
           :before-upload="beforeAvatarUpload"
+          :on-change="handleAvatarChange"
         >
           <img v-if="editForm.userImg" :src="editForm.userImg" class="avatar">
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
       </el-form-item>
       <el-form-item label="昵称">
@@ -69,7 +70,7 @@
         <el-input v-model="editForm.userEmail" placeholder="请输入邮箱"></el-input>
       </el-form-item>
       <el-form-item label="简介">
-        <el-input v-model="editForm.userEmail" placeholder="请输入个人简介"></el-input>
+        <el-input v-model="editForm.userBrief" placeholder="个人简介空空如也哦"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -92,6 +93,7 @@ import { ArrowRight, User, Bell, Setting, Headset, InfoFilled } from '@element-p
 import { Location, ShoppingCart, Ticket } from '@element-plus/icons-vue'
 import {ref} from 'vue'
 import { ElMessage } from 'element-plus'
+import { updateUser } from '@/api/user'
 
 const menuItems = [
   { label: '个人资料', icon: User },
@@ -120,7 +122,8 @@ const editDialogVisible = ref(false)
 const editForm = ref({
   userName: '',
   userEmail: '',
-  userImg: ''
+  userImg: '',
+  userBrief: '',
 })
 
 // 处理菜单点击
@@ -136,6 +139,7 @@ const openEditDialog = () => {
   editForm.value.userName = userStore.userName
   editForm.value.userEmail = userStore.userEmail
   editForm.value.userImg = userStore.userImg
+  editForm.value.userBrief = userStore.userBrief
   editDialogVisible.value = true
 }
 
@@ -144,7 +148,7 @@ const handleClose = () => {
   editDialogVisible.value = false
 }
 // 保存个人资料
-const saveProfile = () => {
+const saveProfile = async () => {
   // 这里可以添加表单验证
   if (!editForm.value.userName.trim()) {
     ElMessage.warning('请输入用户名')
@@ -159,15 +163,31 @@ const saveProfile = () => {
   userStore.updateUserInfo({
     userName: editForm.value.userName,
     userEmail: editForm.value.userEmail,
-    userImg: editForm.value.userImg
+    userBrief: editForm.value.userBrief
   })
+  await updateUser(editForm.value.userName,editForm.value.userEmail,editForm.value.userBrief)
   
   ElMessage.success('保存成功')
   editDialogVisible.value = false
 }
 
-// 头像上传成功
-const handleAvatarSuccess = (response, file) => {
+// 头像上传成功（不走服务端，保留备用）
+// const handleAvatarSuccess = (response, file) => {
+//   editForm.value.userImg = URL.createObjectURL(file.raw)
+// }
+
+// 本地前置校验：仅 jpg/png 且 < 2MB
+const beforeAvatarUpload = (file) => {
+  const okType = ['image/jpeg','image/png'].includes(file.type)
+  const okSize = file.size / 1024 / 1024 < 2
+  if (!okType) ElMessage.error('仅支持 JPG/PNG 格式')
+  if (!okSize) ElMessage.error('图片需小于 2MB')
+  return okType && okSize
+}
+
+// 选择文件后直接本地预览
+const handleAvatarChange = (file) => {
+  if (!beforeAvatarUpload(file.raw)) return
   editForm.value.userImg = URL.createObjectURL(file.raw)
 }
 </script>
@@ -288,4 +308,24 @@ const handleAvatarSuccess = (response, file) => {
   display: block;
   transform: translateY(-60px); 
 }
+/* 让上传区域居中 */
+.avatar-uploader {
+  display: block;
+  margin: 0 auto;
+ 
+}
+
+/* 上传内部也裁成圆形，避免方形边角露出 */
+.avatar-uploader .el-upload {
+  border-radius: 50%;
+  overflow: hidden;
+}
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
 </style>

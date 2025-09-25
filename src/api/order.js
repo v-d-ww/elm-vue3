@@ -30,11 +30,11 @@ export const payment=(orderId)=>{
 
 //提交评价
 export const addComment=( orderId , rating , commentText)=>{
-  return request.post('Comment/addComment',{
+  return request.post('Comment/addComment',null,{
     params:{
-      orderId:orderId,
-      rating:rating,
-      commentText:commentText
+      orderId,
+      rating,
+      commentText
     }
   })
 }

@@ -4,7 +4,7 @@
         <div class="business">
             <!-- 商家广告部分 -->
              <div class="business-ad">
-                <img :src="business.adImg">
+                <img :src="business.adImage">
                 <!-- <img src="@/assets/sj04.png"> -->
              </div>
             <!-- 商家logo部分 -->
@@ -14,8 +14,8 @@
             
                 <!-- 商家信息部分 -->
                 <div class="business-info">
-                    <div style="font-size: 25px;font-weight: 700;">{{ business.businessName }}</div>
-                    <div style="display: flex; gap: 10px;padding-top: 10px;">
+                    <div style="font-size: 20px;font-weight: 700;">{{ business.businessName }}</div>
+                    <div style="display: flex; gap: 8px;padding-top: 10px;">
                         <div class="delivery-item">
                             <div class="des">起送</div><div class="price">￥{{ business.starPrice }}</div>
                         </div>
@@ -97,10 +97,12 @@
                         <div class="user-header">
                             <!-- <img class="mine-avatar" :src="item.userImg"> -->
                             <img class="mine-avatar" src="@/assets/sj04.png">
-                            <div style="font-weight: 700;line-height: 10vw;">{{ item.nickName }}</div>
+                            <div style="font-weight: 700;line-height: 10vw;white-space: nowrap;">{{ item.userName }}</div>
+                            <el-rate style="margin-left: 40vw;" v-model="item.rating" :max="5" />
+
                         </div>
-                        <div class="evalContent">{{ item.content }}</div>
-                        <div style="color: #959090;">{{ item.time }}</div>
+                        <div class="evalContent">{{ item.commentText }}</div>
+                        <div style="color: #959090;">{{ item.createTime }}</div>
                     </div>
 
                 </el-tab-pane>
@@ -444,6 +446,7 @@ header {
     justify-content: center;
     /* align-items: center; */
     /* background-color: red; */
+    margin-top: 10px;
 }
 .delivery-item{
     display: flex;
@@ -473,6 +476,7 @@ header {
 }
 .delivery-item .des{
     font-size: small;
+    white-space: nowrap;
 }
 .delivery-item .price{
     font-size: small;

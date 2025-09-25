@@ -87,6 +87,7 @@
         userStore.setName(res.data.data.nickName)
         userStore.setEmail(res.data.data.userEmail)
         userStore.setImg(res.data.data.userImg)
+        userStore.setBrief(res.data.data.userBrief)
         ElMessage.success('登录成功')
         router.push('/')
     }

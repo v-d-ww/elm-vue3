@@ -148,7 +148,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter,useRoute } from 'vue-router'
-import { getBusinessById,listFoodByBusinessId,getCartList, saveCart,updateCart,removeCart,listCategoryByBusinessId,listFoodByCategoryId } from '@/api/dishes'
+import { getBusinessById,listFoodByBusinessId,getCartList, saveCart,updateCart,removeCart,listCategoryByBusinessId,listFoodByCategoryId ,getComment } from '@/api/dishes'
 import { Plus,Minus } from '@element-plus/icons-vue'
 
 
@@ -166,6 +166,7 @@ const activeName = ref('点菜')
 const handleClick = (tab) => {
     activeName.value = tab.props.name
 }
+
 // const business = ref({
 //     businessId:businessId,
 //     businessName:'米村',
@@ -279,7 +280,7 @@ const handleSelect = async (index) =>{
             ...item, 
             quantity: 0  // 初始化为0
     }))
-    foodArr.value = res.data.data
+    // foodArr.value = res.data.data
     await getCart(businessId)
 }
 // 计算总数量
@@ -343,17 +344,19 @@ const getCart = async (businessId) =>{
 }
 onMounted(async () => {
   try {
-    const [res, res1, res2, res3] = await Promise.all([
+    const [res, res1, res2, res3,res4] = await Promise.all([
       getBusinessById(businessId),
       listFoodByBusinessId(businessId),
       getCartList(businessId),
-      listCategoryByBusinessId(businessId)
+      listCategoryByBusinessId(businessId),
+      getComment(businessId)
     ])
 
     business.value = res?.data?.data || {}
     foodArr.value = (res1?.data?.data || []).map(it => ({ ...it, quantity: 0 }))
     cartArr.value = res2?.data?.data || []
     category.value = res3?.data?.data || []
+    evalList.value = res4?.data?.data || []
 
     // 同步购物车数量
     for (const foodItem of foodArr.value) {

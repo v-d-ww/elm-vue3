@@ -28,6 +28,16 @@ export const payment=(orderId)=>{
   })
 }
 
+//提交评价
+export const addComment=( orderId , rating , commentText)=>{
+  return request.post('Comment/addComment',{
+    params:{
+      orderId:orderId,
+      rating:rating,
+      commentText:commentText
+    }
+  })
+}
 
 
 

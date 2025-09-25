@@ -63,6 +63,14 @@ export const listFoodByCategoryId = (categoryId,businessId) => {
   } })
 }
 
+// 获取评论
+export const getComment = (businessId) => {
+  return request.get('Comment/getComment', { 
+    params: {
+       businessId,
+  } })
+}
+
 
 // 注册接口
 export const userRegisterService=({email,nickName,password,checkCodeKey,checkCode})=>{

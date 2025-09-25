@@ -33,7 +33,8 @@
                 </ul>
                 <div class="but-container">
                     <el-button size="medium" @click="toggleReview(item)">评价</el-button>
-                    <el-button type="primary" size="medium"  @click="goPayment(item)">支付</el-button>
+                    <el-button type="primary" v-if="item.orderState === 0" size="medium"  @click="goPayment(item)">支付</el-button>
+                    <el-button type="primary" v-else size="medium">确认收货</el-button>
                 </div>
                 <div v-if="item.showReview" class="review-panel">
                     <div class="review-row">
@@ -249,7 +250,7 @@
 import Footer from '@/components/PageFooter.vue';
 import { useRouter } from 'vue-router'
 import { ref,computed,onMounted } from 'vue'
-import { listOrdersByUserId } from '@/api/order'
+import { listOrdersByUserId,addComment } from '@/api/order'
 
 const router = useRouter()
 const orderArr = ref([])
@@ -415,6 +416,7 @@ const toggleReview = (order) => {
 }
 const submitReview = async (order) => {
     ensureReviewFields(order)
+    addComment(order.orderId,order.reviewRating,order.reviewText)
     console.log('submit review', {
         orderId: order.orderId,
         rating: order.reviewRating,

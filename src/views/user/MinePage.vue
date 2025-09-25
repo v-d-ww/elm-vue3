@@ -30,6 +30,7 @@
         class="mine-menu-item"
         v-for="item in menuItems"
         :key="item.label"
+        @click="handleMenuClick(item.label)"
       >
         <div class="left">
           <el-icon style="color:#0588d4;"><component :is="item.icon" /></el-icon>
@@ -42,6 +43,42 @@
     <!-- 退出按钮 -->
     <button class="mine-account-btn" @click="logout">退出登录</button>
   </div>
+   <!-- 个人资料编辑弹窗 -->
+   <el-dialog
+    v-model="editDialogVisible"
+    title="编辑个人资料"
+    width="90%"
+    :before-close="handleClose"
+  >
+    <el-form :model="editForm">
+      <el-form-item label="头像">
+        <el-upload
+          class="avatar-uploader"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="editForm.userImg" :src="editForm.userImg" class="avatar">
+          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="昵称">
+        <el-input v-model="editForm.userName" placeholder="请输入昵称"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱">
+        <el-input v-model="editForm.userEmail" placeholder="请输入邮箱"></el-input>
+      </el-form-item>
+      <el-form-item label="简介">
+        <el-input v-model="editForm.userEmail" placeholder="请输入个人简介"></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="editDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="saveProfile">保存</el-button>
+      </span>
+    </template>
+  </el-dialog>
   <!-- 底部菜单部分 -->
 <Footer></Footer>
    </div>
@@ -53,6 +90,8 @@ import { useRouter} from 'vue-router'
 import { useUserStore } from '@/stores/user';
 import { ArrowRight, User, Bell, Setting, Headset, InfoFilled } from '@element-plus/icons-vue'
 import { Location, ShoppingCart, Ticket } from '@element-plus/icons-vue'
+import {ref} from 'vue'
+import { ElMessage } from 'element-plus'
 
 const menuItems = [
   { label: '个人资料', icon: User },
@@ -76,6 +115,60 @@ const logout = () =>{
 const goOrders = () =>{
   router.push({path:'/businessList',query:{index:1}})
 
+}
+const editDialogVisible = ref(false)
+const editForm = ref({
+  userName: '',
+  userEmail: '',
+  userImg: ''
+})
+
+// 处理菜单点击
+const handleMenuClick = (label) => {
+  if (label === '个人资料') {
+    openEditDialog()
+  }
+  // 其他菜单项的处理可以在这里添加
+}
+
+// 打开编辑弹窗
+const openEditDialog = () => {
+  editForm.value.userName = userStore.userName
+  editForm.value.userEmail = userStore.userEmail
+  editForm.value.userImg = userStore.userImg
+  editDialogVisible.value = true
+}
+
+// 关闭弹窗
+const handleClose = () => {
+  editDialogVisible.value = false
+}
+// 保存个人资料
+const saveProfile = () => {
+  // 这里可以添加表单验证
+  if (!editForm.value.userName.trim()) {
+    ElMessage.warning('请输入用户名')
+    return
+  }
+  if (!editForm.value.userEmail.trim()) {
+    ElMessage.warning('请输入邮箱')
+    return
+  }
+  
+  // 更新用户信息到store
+  userStore.updateUserInfo({
+    userName: editForm.value.userName,
+    userEmail: editForm.value.userEmail,
+    userImg: editForm.value.userImg
+  })
+  
+  ElMessage.success('保存成功')
+  editDialogVisible.value = false
+}
+
+// 头像上传成功
+const handleAvatarSuccess = (response, file) => {
+  editForm.value.userImg = URL.createObjectURL(file.raw)
 }
 </script>
 

@@ -18,7 +18,7 @@
         <el-icon  :size="20"><ShoppingCart/></el-icon>
         <div>我的购物车</div>
       </div>
-      <div class="mine-asset-item">
+      <div class="mine-asset-item" @click="openRedPacket">
         <el-icon style="color: #f56c6c;" :size="20"><Ticket/></el-icon>
         <div>红包卡券</div>
       </div>
@@ -80,6 +80,28 @@
       </span>
     </template>
   </el-dialog>
+
+  <!-- 红包卡券弹窗 -->
+  <el-dialog
+    v-model="redPacketDialogVisible"
+    width="90%"
+    class="redpacket-dialog"
+    :show-close="true"
+  >
+    <template #header>
+      <div class="rp-header">我的红包</div>
+    </template>
+    <div class="rp-balance">
+      <div class="rp-label">当前余额</div>
+      <div class="rp-amount">￥{{ redPacket.balance.toFixed(2) }}</div>
+      <div class="rp-frozen">冻结金额：￥{{ redPacket.frozen.toFixed(0) }}</div>
+    </div>
+    <div class="rp-actions">
+      <el-button type="primary" plain @click="charge">充值</el-button>
+      <el-button type="warning" @click="withdraw">提现</el-button>
+    </div>
+    <div class="rp-footer-link" @click="goTransactions">流水查询</div>
+  </el-dialog>
   <!-- 底部菜单部分 -->
 <Footer></Footer>
    </div>
@@ -126,6 +148,12 @@ const editForm = ref({
   userBrief: '',
 })
 
+const redPacketDialogVisible = ref(false)
+const redPacket = ref({
+  balance: 1000,
+  frozen: 68
+})
+
 // 处理菜单点击
 const handleMenuClick = (label) => {
   if (label === '个人资料') {
@@ -141,6 +169,20 @@ const openEditDialog = () => {
   editForm.value.userImg = userStore.userImg
   editForm.value.userBrief = userStore.userBrief
   editDialogVisible.value = true
+}
+
+const openRedPacket = () => {
+  redPacketDialogVisible.value = true
+}
+
+const charge = () => {
+  ElMessage.info('充值功能待接入')
+}
+const withdraw = () => {
+  ElMessage.info('提现功能待接入')
+}
+const goTransactions = () => {
+  ElMessage.info('流水查询功能待接入')
 }
 
 // 关闭弹窗
@@ -246,6 +288,7 @@ const handleAvatarChange = (file) => {
   color: #444;
   padding: 0 4px;
   border-right: 1px solid #eee;
+  cursor: pointer;
 }
 .mine-asset-item:last-child {
   border-right: none;
@@ -326,6 +369,52 @@ const handleAvatarChange = (file) => {
   border-radius: 50%;
   object-fit: cover;
   display: block;
+}
+
+/* 红包弹窗 */
+:deep(.redpacket-dialog .el-dialog__body) {
+  padding: 12px 16px 20px 16px;
+}
+.rp-header {
+  font-size: 18px;
+  font-weight: 600;
+}
+.rp-balance {
+  text-align: center;
+  padding: 6px 0 12px 0;
+}
+.rp-label {
+  color: #666;
+  margin-bottom: 6px;
+}
+.rp-amount {
+  font-size: 32px;
+  font-weight: 700;
+  color: #d06060;
+  margin-bottom: 4px;
+}
+.rp-frozen {
+  color: #777;
+  font-size: 14px;
+}
+.rp-actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  gap: 10px;
+}
+.rp-actions .el-button {
+  flex: 1;
+  height: 44px;
+}
+.rp-footer-link {
+  text-align: right;
+  color: #606266;
+  font-size: 14px;
+  cursor: pointer;
+}
+.rp-footer-link:hover {
+  color: #409eff;
 }
 
 </style>

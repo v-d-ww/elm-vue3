@@ -100,56 +100,56 @@ onMounted(async()=>{
             deliveryaddress.value = null
         }
 })
-// cartArr.value =[ {
-//       id: 1,
-//       food: {
-//         foodId: 1001,
-//         foodName: "宫保鸡丁",
-//         foodPrice: 28.00,
-//         foodImg: "https://example.com/images/gongbaojiding.jpg",
-//         foodDescription: "经典川菜，鸡肉嫩滑，花生香脆"
-//       },
-//       quantity: 2,
-//       businessId: "1001"
-//     },
-//     {
-//       id: 2,
-//       food: {
-//         foodId: 1002,
-//         foodName: "麻婆豆腐",
-//         foodPrice: 18.00,
-//         foodImg: "https://example.com/images/mapodoufu.jpg",
-//         foodDescription: "麻辣鲜香，豆腐嫩滑"
-//       },
-//       quantity: 1,
-//       businessId: "1001"
-//     },]
-// deliveryaddress.value = {
-//     daId: "1",
-//     contactName: "张三",
-//     contactSex: 1,  // 1-男，0-女
-//     contactTel: "13800138000",
-//     address: "北京市朝阳区建国路88号SOHO现代城A座1205室",
-//     userId: "10001",
-//     createTime: "2024-01-15 10:30:00",
-//     updateTime: "2024-01-15 10:30:00"
-//   }
-// business.value = {
-//     businessId: "1001",
-//     businessName: "川味小厨",
-//     businessAddress: "北京市朝阳区三里屯街道工体北路8号",
-//     businessExplain: "正宗川菜，麻辣鲜香",
-//     businessImg: "https://example.com/images/chuancai.jpg",
-//     orderTypeId: 1,
-//     starPrice: 20.00,  // 起送价
-//     deliveryPrice: 5.00,  // 配送费
-//     remarks: "营业时间：10:00-22:00",
-//     businessPhone: "010-12345678",
-//     businessStatus: 1,  // 1-营业中，0-休息中
-//     businessHours: "10:00-22:00",
-//     createTime: "2024-01-01 00:00:00",
-//     updateTime: "2024-01-15 15:30:00"
-//   }
+cartArr.value =[ {
+      id: 1,
+      food: {
+        foodId: 1001,
+        foodName: "宫保鸡丁",
+        foodPrice: 28.00,
+        foodImg: "https://example.com/images/gongbaojiding.jpg",
+        foodDescription: "经典川菜，鸡肉嫩滑，花生香脆"
+      },
+      quantity: 2,
+      businessId: "1001"
+    },
+    {
+      id: 2,
+      food: {
+        foodId: 1002,
+        foodName: "麻婆豆腐",
+        foodPrice: 18.00,
+        foodImg: "https://example.com/images/mapodoufu.jpg",
+        foodDescription: "麻辣鲜香，豆腐嫩滑"
+      },
+      quantity: 1,
+      businessId: "1001"
+    },]
+deliveryaddress.value = {
+    daId: "1",
+    contactName: "张三",
+    contactSex: 1,  // 1-男，0-女
+    contactTel: "13800138000",
+    address: "北京市朝阳区建国路88号SOHO现代城A座1205室",
+    userId: "10001",
+    createTime: "2024-01-15 10:30:00",
+    updateTime: "2024-01-15 10:30:00"
+  }
+business.value = {
+    businessId: "1001",
+    businessName: "川味小厨",
+    businessAddress: "北京市朝阳区三里屯街道工体北路8号",
+    businessExplain: "正宗川菜，麻辣鲜香",
+    businessImg: "https://example.com/images/chuancai.jpg",
+    orderTypeId: 1,
+    starPrice: 20.00,  // 起送价
+    deliveryPrice: 5.00,  // 配送费
+    remarks: "营业时间：10:00-22:00",
+    businessPhone: "010-12345678",
+    businessStatus: 1,  // 1-营业中，0-休息中
+    businessHours: "10:00-22:00",
+    createTime: "2024-01-01 00:00:00",
+    updateTime: "2024-01-15 15:30:00"
+  }
 
 </script>
 

@@ -13,6 +13,10 @@
             <el-icon><Document /></el-icon>
             <span>订单</span>
         </el-menu-item>
+        <el-menu-item index="points">
+            <el-icon><Coin /></el-icon>
+            <span>商城</span>
+        </el-menu-item>
         <el-menu-item index="mine">
             <el-icon><User /></el-icon>
             <span>我的</span>
@@ -23,7 +27,7 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import { House, Document, User } from '@element-plus/icons-vue'
+import { House, Document, User, Coin } from '@element-plus/icons-vue'
 import { ref, watch,onMounted } from 'vue'
 
 const router = useRouter()

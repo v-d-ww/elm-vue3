@@ -1,4 +1,5 @@
 <template>
+  <div class="payment-page">
     <!-- header部分 -->
     <header>
             <p>在线支付</p>
@@ -42,11 +43,24 @@
 <!-- 支付方式部分 -->
 <div class="payment-type">
   <div class="payment-choose">选择支付方式</div>
-  <div 
-    class="pay-radio-label"
-    @click="selectPayType('alipay')"
-  >
-    <div class="payment">     
+
+  <div class="pay-radio-label" @click="selectPayType('redpacket')">
+    <div class="payment">
+      <img src="@/assets/redpacket.png" />
+      <div class="payment-text">
+        <p>红包支付</p>
+      </div>
+    </div>
+    <div class="check-icon" v-if="payType === 'redpacket'">
+      <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="28" height="28"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#09b214" p-id="14059"></path></svg>
+    </div>
+    <div class="check-icon" v-else>
+      <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="28" height="28"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#C6CCDA" p-id="14059"></path></svg>
+    </div>
+  </div>
+
+  <div class="pay-radio-label" @click="selectPayType('alipay')">
+    <div class="payment">
       <img src="@/assets/alipay.png">
       <p>支付宝支付</p>
     </div> 
@@ -57,10 +71,8 @@
         <svg t="1758437574786" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14058" width="28" height="28"><path d="M512.2 65.4c-247.1 0-447.5 200.4-447.5 447.5s200.4 447.5 447.5 447.5S959.7 760 959.7 512.9 759.3 65.4 512.2 65.4z m220 348L488.8 656.9c-8.1 8.1-18.8 12.2-29.4 12.2-10.7 0-21.3-4.1-29.4-12.2L292.2 519.2c-6.3-6.3-9.7-14.6-9.7-23.5s3.5-17.2 9.7-23.5c13-13 34.1-13 47 0l120.1 120.1 225.9-225.9c13-13 34-13 47 0 6.3 6.3 9.7 14.6 9.7 23.5 0.1 8.9-3.4 17.2-9.7 23.5z" fill="#C6CCDA" p-id="14059"></path></svg>
       </div>
   </div>
-  <div 
-    class="pay-radio-label"
-    @click="selectPayType('wechat')"
-   >  
+
+  <div class="pay-radio-label" @click="selectPayType('wechat')">  
     <div class="payment">    
       <img src="@/assets/wechat.png">
       <p>微信支付</p>
@@ -78,6 +90,7 @@
         </div>
         
     </div>
+  </div>
 </template>
 
 <script setup>
@@ -86,6 +99,7 @@ import { ref,computed, onMounted, onBeforeUnmount } from 'vue'
 import { ArrowDown,ArrowLeft } from '@element-plus/icons-vue'
 import { getOrdersById } from '@/api/order'
 import { payment } from '@/api/order'
+import { ElMessage } from 'element-plus'
 // const order = ref() 
         // mounted() {
         //     //这里的代码是实现:一旦路由到在线支付组件,就不能回到订单确认组件｡
@@ -100,7 +114,8 @@ import { payment } from '@/api/order'
         //     window.onpopstate = null;
         // },
 // const orders = ref({})
-const payType = ref()
+const payType = ref('redpacket')
+const redPacketBalance = ref(0)
 // 选择支付方式的方法
 const selectPayType = (type) => {
   payType.value = type
@@ -172,9 +187,36 @@ const router = useRouter()
 const route = useRoute() 
 const orderId = route.query.orderId
 const confirm = async () => {
-    await payment(orderId)
+    if (payType.value === 'redpacket') {
+      const cost = Number(orders.value.orderTotal || 0)
+      if (redPacketBalance.value < cost) {
+        ElMessage.warning('红包余额不足')
+        return
+      }
+      // 扣减红包余额
+      redPacketBalance.value = +(redPacketBalance.value - cost).toFixed(2)
+      localStorage.setItem('redPacketBalance', redPacketBalance.value.toString())
+
+      // 增加积分（示例：按订单金额取整）
+      const gainPoints = Math.max(1, Math.floor(cost))
+      const pointsBalance = Number(localStorage.getItem('pointsBalance') || '0')
+      localStorage.setItem('pointsBalance', (pointsBalance + gainPoints).toString())
+
+      const ledger = JSON.parse(localStorage.getItem('pointsLedger') || '[]')
+      ledger.unshift({
+        createdAt: new Date().toLocaleString('zh-CN', { hour12: false }),
+        source: '红包支付返积分',
+        change: gainPoints,
+        expiresAt: '—',
+        remark: `订单 ${orderId || orders.value.orderId || ''}`
+      })
+      localStorage.setItem('pointsLedger', JSON.stringify(ledger))
+
+      ElMessage.success(`已用红包支付，获得积分 +${gainPoints}`)
+    } else {
+      await payment(orderId)
+    }
     router.push({path:'/success',query:{orderId:orderId}})
-    
 }   
 const TOTAL = 15 * 60
 const remaining = ref(TOTAL)
@@ -187,6 +229,10 @@ const countdownText = computed(() => {
 })
 
 onMounted(async () => {
+  // 初始化红包余额（可改为接口返回），默认 1000
+  const cache = localStorage.getItem('redPacketBalance')
+  redPacketBalance.value = cache ? Number(cache) : 1000
+
   timerId = setInterval(() => {
     if (remaining.value > 0) {
       remaining.value--
@@ -332,6 +378,15 @@ onBeforeUnmount(() => {
         justify-content: flex-start;
         align-content: center;
         height: 8vw;
+    }
+    .payment-text p {
+      margin: 0;
+      line-height: 1.4;
+      font-size: 14px;
+    }
+    .payment-text small {
+      color: #888;
+      font-size: 12px;
     }
     .payment img {
         width: 7vw;

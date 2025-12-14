@@ -677,6 +677,7 @@ const handleAvatarChange = (file) => {
   color: #409eff;
 }
 
+<<<<<<< HEAD
 /* 充值弹窗样式 */
 :deep(.charge-dialog .el-dialog__body) {
   padding: 16px;

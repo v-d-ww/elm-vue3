@@ -314,8 +314,13 @@ const editForm = ref({
 })
 
 const redPacketDialogVisible = ref(false)
+// 从 localStorage 读取红包余额，如果没有则使用默认值
+const getRedPacketBalance = () => {
+  const cache = localStorage.getItem('redPacketBalance')
+  return cache ? Number(cache) : 1000
+}
 const redPacket = ref({
-  balance: 1000,
+  balance: getRedPacketBalance(),
   frozen: 68
 })
 
@@ -333,45 +338,86 @@ const withdrawForm = ref({
   paymentMethod: 'alipay' // alipay or wechat
 })
 
-// 交易流水弹窗
-const transactionDialogVisible = ref(false)
-const transactionList = ref([
-  {
-    type: '充值',
-    date: '2024-12-20 10:30:25',
-    amount: '+ ¥100.00',
-    amountClass: 'positive',
-    balance: '余额:¥1100.00'
-  },
-  {
-    type: '消费',
-    date: '2024-12-19 14:20:15',
-    amount: '- ¥25.50',
-    amountClass: 'negative',
-    balance: '余额:¥1074.50'
-  },
-  {
-    type: '充值',
-    date: '2024-12-18 09:15:30',
-    amount: '+ ¥50.00',
-    amountClass: 'positive',
-    balance: '余额:¥1100.00'
-  },
-  {
-    type: '提现',
-    date: '2024-12-17 16:45:20',
-    amount: '- ¥75.80',
-    amountClass: 'negative',
-    balance: '余额:¥1050.00'
-  },
-  {
-    type: '消费',
-    date: '2024-12-16 12:10:45',
-    amount: '- ¥32.00',
-    amountClass: 'negative',
-    balance: '余额:¥1025.00'
+// 交易流水弹窗 - 从 localStorage 读取，如果没有则使用默认值
+const getTransactionList = () => {
+  const cache = localStorage.getItem('redPacketTransactions')
+  if (cache) {
+    return JSON.parse(cache)
   }
-])
+  // 默认流水记录
+  return [
+    {
+      type: '充值',
+      date: '2024-12-20 10:30:25',
+      amount: '+ ¥100.00',
+      amountClass: 'positive',
+      balance: '余额:¥1100.00'
+    },
+    {
+      type: '消费',
+      date: '2024-12-19 14:20:15',
+      amount: '- ¥25.50',
+      amountClass: 'negative',
+      balance: '余额:¥1074.50'
+    },
+    {
+      type: '充值',
+      date: '2024-12-18 09:15:30',
+      amount: '+ ¥50.00',
+      amountClass: 'positive',
+      balance: '余额:¥1100.00'
+    },
+    {
+      type: '提现',
+      date: '2024-12-17 16:45:20',
+      amount: '- ¥75.80',
+      amountClass: 'negative',
+      balance: '余额:¥1050.00'
+    },
+    {
+      type: '消费',
+      date: '2024-12-16 12:10:45',
+      amount: '- ¥32.00',
+      amountClass: 'negative',
+      balance: '余额:¥1025.00'
+    }
+  ]
+}
+
+const transactionDialogVisible = ref(false)
+const transactionList = ref(getTransactionList())
+
+// 保存流水记录到 localStorage
+const saveTransactionList = () => {
+  localStorage.setItem('redPacketTransactions', JSON.stringify(transactionList.value))
+}
+
+// 添加流水记录
+const addTransaction = (type, amount, balance) => {
+  const now = new Date()
+  const date = now.toLocaleString('zh-CN', { 
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }).replace(/\//g, '-')
+  
+  const isPositive = amount >= 0
+  const amountStr = isPositive ? `+ ¥${Math.abs(amount).toFixed(2)}` : `- ¥${Math.abs(amount).toFixed(2)}`
+  
+  transactionList.value.unshift({
+    type: type,
+    date: date,
+    amount: amountStr,
+    amountClass: isPositive ? 'positive' : 'negative',
+    balance: `余额:¥${balance.toFixed(2)}`
+  })
+  
+  saveTransactionList()
+}
 
 // 处理菜单点击
 const handleMenuClick = (label) => {
@@ -391,6 +437,8 @@ const openEditDialog = () => {
 }
 
 const openRedPacket = () => {
+  // 每次打开时同步余额
+  redPacket.value.balance = getRedPacketBalance()
   redPacketDialogVisible.value = true
 }
 
@@ -405,12 +453,22 @@ const confirmCharge = () => {
     ElMessage.warning('请输入充值金额')
     return
   }
-  // 模拟充值成功
-  redPacket.value.balance += chargeForm.value.amount
+  // 计算充值金额（包括赠送）
+  let chargeAmount = chargeForm.value.amount
+  let giftAmount = 0
   // 如果充值100元，送100元
   if (chargeForm.value.amount >= 100) {
-    redPacket.value.balance += 100
+    giftAmount = 100
   }
+  const totalAmount = chargeAmount + giftAmount
+  
+  // 更新余额
+  redPacket.value.balance += totalAmount
+  localStorage.setItem('redPacketBalance', redPacket.value.balance.toString())
+  
+  // 添加流水记录
+  addTransaction('充值', totalAmount, redPacket.value.balance)
+  
   chargeDialogVisible.value = false
   redPacketDialogVisible.value = false
   ElMessage.success('充值成功！')
@@ -434,14 +492,21 @@ const confirmWithdraw = () => {
   // 计算手续费（10%）
   const fee = withdrawForm.value.amount * 0.1
   const actualAmount = withdrawForm.value.amount - fee
-  // 模拟提现成功
+  // 更新余额
   redPacket.value.balance -= withdrawForm.value.amount
+  localStorage.setItem('redPacketBalance', redPacket.value.balance.toString())
+  
+  // 添加流水记录
+  addTransaction('提现', -withdrawForm.value.amount, redPacket.value.balance)
+  
   withdrawDialogVisible.value = false
   redPacketDialogVisible.value = false
   ElMessage.success(`提现成功！实际到账：¥${actualAmount.toFixed(2)}，手续费：¥${fee.toFixed(2)}`)
 }
 
 const goTransactions = () => {
+  // 每次打开时重新加载流水记录
+  transactionList.value = getTransactionList()
   transactionDialogVisible.value = true
 }
 

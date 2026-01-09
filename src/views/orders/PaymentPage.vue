@@ -197,6 +197,37 @@ const confirm = async () => {
       redPacketBalance.value = +(redPacketBalance.value - cost).toFixed(2)
       localStorage.setItem('redPacketBalance', redPacketBalance.value.toString())
 
+      // 添加流水记录
+      const getTransactionList = () => {
+        const cache = localStorage.getItem('redPacketTransactions')
+        if (cache) {
+          return JSON.parse(cache)
+        }
+        return []
+      }
+      
+      const transactionList = getTransactionList()
+      const now = new Date()
+      const date = now.toLocaleString('zh-CN', { 
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).replace(/\//g, '-')
+      
+      transactionList.unshift({
+        type: '消费',
+        date: date,
+        amount: `- ¥${cost.toFixed(2)}`,
+        amountClass: 'negative',
+        balance: `余额:¥${redPacketBalance.value.toFixed(2)}`
+      })
+      
+      localStorage.setItem('redPacketTransactions', JSON.stringify(transactionList))
+
       // 增加积分（示例：按订单金额取整）
       const gainPoints = Math.max(1, Math.floor(cost))
       const pointsBalance = Number(localStorage.getItem('pointsBalance') || '0')

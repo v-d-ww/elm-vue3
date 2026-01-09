@@ -250,11 +250,11 @@
 <script setup>
 import Footer from '@/components/PageFooter.vue';
 import { useRouter } from 'vue-router'
-import { ref,computed,onMounted } from 'vue'
+import { ref,computed } from 'vue'
 import { listOrdersByUserId,addComment } from '@/api/order'
 
 const router = useRouter()
-const orderArr = ref([])
+// const orderArr = ref([])
 const paidOrders = computed(() => orderArr.value.filter(o => o.orderState === 1))
 const deliveryOrders = computed(() => orderArr.value.filter(o => o.orderState === 3))
 const receiveOrders = computed(() => orderArr.value.filter(o => o.orderState === 7))
@@ -268,143 +268,143 @@ const handleClick = (tab)=>{
 const goPayment = (order) => {
     router.push({ path: '/payment', query: { orderId: order.orderId } });
 }
-onMounted(async()=>{
-    const res = await listOrdersByUserId()
-    orderArr.value=res.data.data
-})    
-// const orderArr =ref( [
-//   {
-//     orderId: 10001,
-//     orderState: 0, // 未支付
-//     orderTotal: 38.5,
-//     isShowDetailet: false,
-//     business: {
-//       businessName: "汉堡王（人民广场店）",
-//       deliveryPrice: 5
-//     },
-//     list: [
-//       {
-//         id: 1,
-//         quantity: 2,
-//         food: {
-//           foodImg: "https://example.com/img/burger.jpg",
-//           foodName: "皇堡",
-//           foodPrice: 15
-//         }
-//       },
-//       {
-//         id: 2,
-//         quantity: 1,
-//         food: {
-//           foodImg: "https://example.com/img/coke.jpg",
-//           foodName: "可乐",
-//           foodPrice: 3.5
-//         }
-//       },
-//       {
-//         id: 1,
-//         quantity: 2,
-//         food: {
-//           foodImg: "https://example.com/img/burger.jpg",
-//           foodName: "皇堡",
-//           foodPrice: 15
-//         }
-//       },
-//       {
-//         id: 1,
-//         quantity: 2,
-//         food: {
-//           foodImg: "https://example.com/img/burger.jpg",
-//           foodName: "皇堡",
-//           foodPrice: 15
-//         }
-//       },
-//     ]
-//   },
-//   {
-//     orderId: 10002,
-//     orderState: 1, // 已支付
-//     orderTotal: 52,
-//     isShowDetailet: false,
-//     business: {
-//       businessName: "肯德基（淮海路店）",
-//       deliveryPrice: 4
-//     },
-//     list: [
-//       {
-//         id: 3,
-//         quantity: 1,
-//         food: {
-//           foodImg: "https://example.com/img/chicken.jpg",
-//           foodName: "吮指原味鸡",
-//           foodPrice: 18
-//         }
-//       },
-//       {
-//         id: 4,
-//         quantity: 2,
-//         food: {
-//           foodImg: "https://example.com/img/icecream.jpg",
-//           foodName: "冰淇淋",
-//           foodPrice: 5
-//         }
-//       }
-//     ]
-//   },
-//   {
-//     orderId: 10003,
-//     orderState: 3, // 配送中
-//     orderTotal: 27,
-//     isShowDetailet: false,
-//     business: {
-//       businessName: "兰州拉面",
-//       deliveryPrice: 3
-//     },
-//     list: [
-//       {
-//         id: 5,
-//         quantity: 1,
-//         food: {
-//           foodImg: "https://example.com/img/noodle.jpg",
-//           foodName: "牛肉面",
-//           foodPrice: 24
-//         }
-//       }
-//     ]
-//   },
-//   {
-//     orderId: 10004,
-//     orderState: 7, // 已接单
-//     orderTotal: 66,
-//     isShowDetailet: false,
-//     business: {
-//       businessName: "全家便利店",
-//       deliveryPrice: 2
-//     },
-//     list: [
-//       {
-//         id: 6,
-//         quantity: 6,
-//         food: {
-//           foodImg: "https://example.com/img/riceball.jpg",
-//           foodName: "饭团",
-//           foodPrice: 8
-//         }
-//       }
-//     ]
-//   },
-//   {
-//     orderId: 10005,
-//     orderState: 6, // 已取消
-//     orderTotal: 0,
-//     isShowDetailet: false,
-//     business: {
-//       businessName: "披萨店",
-//       deliveryPrice: 6
-//     },
-//     list: []
-//   }
-// ] )   
+// onMounted(async()=>{
+//     const res = await listOrdersByUserId()
+//     orderArr.value=res.data.data
+// })    
+const orderArr =ref( [
+  {
+    orderId: 10001,
+    orderState: 0, // 未支付
+    orderTotal: 38.5,
+    isShowDetailet: false,
+    business: {
+      businessName: "汉堡王（人民广场店）",
+      deliveryPrice: 5
+    },
+    list: [
+      {
+        id: 1,
+        quantity: 2,
+        food: {
+          foodImg: "https://example.com/img/burger.jpg",
+          foodName: "皇堡",
+          foodPrice: 15
+        }
+      },
+      {
+        id: 2,
+        quantity: 1,
+        food: {
+          foodImg: "https://example.com/img/coke.jpg",
+          foodName: "可乐",
+          foodPrice: 3.5
+        }
+      },
+      {
+        id: 1,
+        quantity: 2,
+        food: {
+          foodImg: "https://example.com/img/burger.jpg",
+          foodName: "皇堡",
+          foodPrice: 15
+        }
+      },
+      {
+        id: 1,
+        quantity: 2,
+        food: {
+          foodImg: "https://example.com/img/burger.jpg",
+          foodName: "皇堡",
+          foodPrice: 15
+        }
+      },
+    ]
+  },
+  {
+    orderId: 10002,
+    orderState: 1, // 已支付
+    orderTotal: 52,
+    isShowDetailet: false,
+    business: {
+      businessName: "肯德基（淮海路店）",
+      deliveryPrice: 4
+    },
+    list: [
+      {
+        id: 3,
+        quantity: 1,
+        food: {
+          foodImg: "https://example.com/img/chicken.jpg",
+          foodName: "吮指原味鸡",
+          foodPrice: 18
+        }
+      },
+      {
+        id: 4,
+        quantity: 2,
+        food: {
+          foodImg: "https://example.com/img/icecream.jpg",
+          foodName: "冰淇淋",
+          foodPrice: 5
+        }
+      }
+    ]
+  },
+  {
+    orderId: 10003,
+    orderState: 3, // 配送中
+    orderTotal: 27,
+    isShowDetailet: false,
+    business: {
+      businessName: "兰州拉面",
+      deliveryPrice: 3
+    },
+    list: [
+      {
+        id: 5,
+        quantity: 1,
+        food: {
+          foodImg: "https://example.com/img/noodle.jpg",
+          foodName: "牛肉面",
+          foodPrice: 24
+        }
+      }
+    ]
+  },
+  {
+    orderId: 10004,
+    orderState: 7, // 已接单
+    orderTotal: 66,
+    isShowDetailet: false,
+    business: {
+      businessName: "全家便利店",
+      deliveryPrice: 2
+    },
+    list: [
+      {
+        id: 6,
+        quantity: 6,
+        food: {
+          foodImg: "https://example.com/img/riceball.jpg",
+          foodName: "饭团",
+          foodPrice: 8
+        }
+      }
+    ]
+  },
+  {
+    orderId: 10005,
+    orderState: 6, // 已取消
+    orderTotal: 0,
+    isShowDetailet: false,
+    business: {
+      businessName: "披萨店",
+      deliveryPrice: 6
+    },
+    list: []
+  }
+] )   
 
 const ensureReviewFields = (order) => {
     if (order.showReview === undefined) order.showReview = false;
